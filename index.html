@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>開啟 Obsidian 筆記</title>
+<style>
+  body { font-family: -apple-system, "PingFang TC", sans-serif; display: flex; flex-direction: column;
+         align-items: center; justify-content: center; min-height: 80vh; gap: 1rem; padding: 1.5rem; text-align: center; }
+  a.btn { display: inline-block; padding: .8rem 1.6rem; border-radius: .6rem; background: #7c3aed;
+          color: #fff; text-decoration: none; font-size: 1.1rem; }
+  #path { color: #666; word-break: break-all; font-size: .9rem; }
+  .hint { color: #999; font-size: .8rem; max-width: 28rem; }
+</style>
+</head>
+<body>
+<p>🧠 正在開啟 Obsidian…</p>
+<a id="fallback" class="btn" href="#">沒有自動開啟？點這裡</a>
+<p id="path"></p>
+<p class="hint">若在 LINE 內建瀏覽器無法跳轉，請點右下角「···」→「用預設瀏覽器開啟」再試一次。</p>
+<script>
+  var f = new URLSearchParams(location.search).get('f') || '';
+  var uri = 'obsidian://open?vault=' + encodeURIComponent('Laierin 2 brain')
+          + (f ? '&file=' + encodeURIComponent(f) : '');
+  document.getElementById('fallback').href = uri;
+  document.getElementById('path').textContent = f;
+  location.replace(uri);
+</script>
+</body>
+</html>
