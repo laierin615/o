@@ -21,10 +21,15 @@
 <p class="hint">若在 LINE 內建瀏覽器無法跳轉，請點右下角「···」→「用預設瀏覽器開啟」再試一次。</p>
 <script>
   var f = new URLSearchParams(location.search).get('f') || '';
-  var uri = 'obsidian://open?vault=' + encodeURIComponent('Laierin 2 brain')
-          + (f ? '&file=' + encodeURIComponent(f) : '');
+  var vault = 'Documents';
+  var file = f;
+  if (file && !file.startsWith('Laierin 2 brain/')) {
+    file = 'Laierin 2 brain/' + file;
+  }
+  var uri = 'obsidian://open?vault=' + encodeURIComponent(vault)
+          + (file ? '&file=' + encodeURIComponent(file) : '');
   document.getElementById('fallback').href = uri;
-  document.getElementById('path').textContent = f;
+  document.getElementById('path').textContent = file || f;
   location.replace(uri);
 </script>
 </body>
