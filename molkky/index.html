@@ -1,0 +1,1160 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>木棋 Mölkky 大挑戰｜兩節課整合版</title>
+<style>
+/* ============ 基礎 ============ */
+:root{
+  --deep:#20180f; --deep2:#2c2115;
+  --wood:#d9b98c; --wood2:#c19a63;
+  --lime:#c8dd6a; --sky:#8fc0e4;
+  --amber:#f2a33c; --coral:#e8603c;
+  --cream:#fbf6ea; --mute:#ddd0b8; --soft:#a99a80;
+  --line:rgba(251,246,234,.18);
+  --card:rgba(251,246,234,.07);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--deep); color:var(--cream);
+  font-family:"PingFang TC","Noto Sans TC","Hiragino Sans TC",system-ui,-apple-system,sans-serif;
+  overflow:hidden; -webkit-font-smoothing:antialiased;
+}
+.deck{height:100svh}
+.slide{
+  display:none; min-height:100svh; overflow-x:hidden; overflow-y:auto;
+  padding:clamp(1.2rem,3.4vh,2.6rem) clamp(1.1rem,5.5vw,6.4rem) 3.6rem;
+  background:
+    radial-gradient(ellipse at 84% 8%,rgba(242,163,60,.16),transparent 46%),
+    radial-gradient(ellipse at 8% 92%,rgba(200,221,106,.1),transparent 46%),
+    linear-gradient(155deg,var(--deep),var(--deep2) 58%,#1a130b);
+}
+.slide.active{display:flex;flex-direction:column;justify-content:center;animation:enter .4s both}
+@keyframes enter{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+.num{position:absolute;right:clamp(1rem,4vw,3.4rem);top:1.1rem;font-size:.78rem;
+  color:rgba(251,246,234,.42);font-variant-numeric:tabular-nums}
+.eyebrow{color:var(--amber);font-size:.8rem;letter-spacing:.16em;font-weight:800;margin:0 0 .5rem}
+.eyebrow u{text-decoration:none;color:var(--soft)}
+h1.title{font-size:clamp(2.8rem,8.4vw,6.6rem);line-height:.96;letter-spacing:-.055em;margin:.2rem 0 .5rem;font-weight:900}
+h2{font-size:clamp(1.45rem,3.3vw,2.55rem);line-height:1.16;letter-spacing:-.03em;margin:.1rem 0 .55rem;
+  max-width:26em;font-weight:900}
+h2 strong{color:var(--amber)}
+h2 em{font-style:normal;color:var(--lime)}
+.sub{max-width:56em;color:var(--mute);line-height:1.66;font-size:clamp(.95rem,1.3vw,1.14rem);margin:0 0 .9rem}
+.sub b{color:var(--lime)}
+.note{position:absolute;left:clamp(1.1rem,5.5vw,6.4rem);right:clamp(1.1rem,5.5vw,6.4rem);bottom:1rem;
+  font-size:.73rem;line-height:1.5;color:rgba(169,154,128,.92)}
+.note b{color:var(--soft)}
+@media(min-width:561px){.note{padding-right:8.5rem}}
+
+/* 封面 */
+.pills{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}
+.author{font-size:clamp(1.1rem,2vw,1.6rem);font-weight:800;color:var(--cream);margin:1rem 0 0;letter-spacing:.02em}
+.author b{color:var(--amber);font-weight:900}
+.pill{border:1px solid rgba(242,163,60,.5);color:var(--amber);border-radius:99px;
+  padding:.42rem .95rem;font-size:.88rem;font-weight:800}
+.pill.g{border-color:rgba(200,221,106,.5);color:var(--lime)}
+
+/* 表格 */
+.tbl{display:grid;gap:1px;background:var(--line);max-width:1240px;border-radius:12px;overflow:hidden;font-size:.95rem}
+.tbl>div{background:#33261a;padding:.6rem .78rem;line-height:1.6}
+.tbl .h{background:#4a361f;font-weight:800;font-size:.86rem;letter-spacing:.07em;color:var(--soft)}
+.tbl .k{background:#3d2c1c;font-weight:800;color:var(--amber);font-variant-numeric:tabular-nums}
+.tbl .k.li{color:var(--lime)} .tbl .k.sk{color:var(--sky)}
+.tbl .hi{background:#3a2b1a}
+.tbl b{color:var(--lime)} .tbl u{text-decoration:none;color:var(--amber);font-weight:800}
+.tbl small{display:block;color:var(--soft);font-size:.92em;margin-top:.15rem}
+.t-233{grid-template-columns:1fr 2fr 2fr}
+.t-244{grid-template-columns:.72fr 2.35fr 1.75fr}
+.t-234{grid-template-columns:.8fr 1.5fr 2fr}
+.t-133{grid-template-columns:.9fr 1.55fr 1.55fr}
+.t-2{grid-template-columns:1fr 1fr}
+.t-11{grid-template-columns:1.55fr 1fr}
+.t-323{grid-template-columns:1.15fr 1.9fr 1.5fr}
+.tbl.sm{font-size:.9rem} .tbl.sm>div{padding:.5rem .66rem}
+
+/* 條列 */
+.bul{max-width:64em;margin:.7rem 0 0;padding-left:1.2rem;font-size:clamp(.95rem,1.22vw,1.1rem);line-height:1.78;color:var(--mute)}
+.bul b{color:var(--lime)} .bul u{text-decoration:none;color:var(--amber);font-weight:800}
+.bul li{margin-bottom:.38rem}
+
+/* 嵌入註記條 */
+.embed{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.65rem;max-width:1240px}
+.emb{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--sky);
+  border-radius:0 10px 10px 0;padding:.55rem .85rem;font-size:.92rem;line-height:1.6;color:var(--mute);flex:1 1 20rem}
+.emb b{color:var(--sky);font-weight:800}
+.emb.am{border-left-color:var(--amber)} .emb.am b{color:var(--amber)}
+.emb.li{border-left-color:var(--lime)} .emb.li b{color:var(--lime)}
+.emb.co{border-left-color:var(--coral)} .emb.co b{color:#ffb4a0}
+
+/* 一句話重點條 */
+.punch{background:rgba(242,163,60,.13);border:1px solid rgba(242,163,60,.42);border-radius:14px;
+  padding:.7rem 1rem;margin:.65rem 0 0;max-width:1240px;font-size:1.02rem;line-height:1.66}
+.punch b{color:var(--amber)} .punch em{font-style:normal;color:var(--lime);font-weight:800}
+
+/* ---- S3 器材排列圖／來源／正式規則 ---- */
+.stage.form{aspect-ratio:5/3.65; --fw:clamp(40px,4vw,54px); --pw:clamp(19px,2vw,27px); --sw:clamp(22px,2.2vw,30px); --fs:.7rem}
+.form .mpin{box-shadow:0 2px 0 rgba(0,0,0,.32)}
+.form .f7{left:43%;top:26%}.form .f9{left:50%;top:26%}.form .f8{left:57%;top:26%}
+.form .f5{left:39.5%;top:38%}.form .f11{left:46.5%;top:38%}.form .f12{left:53.5%;top:38%}.form .f6{left:60.5%;top:38%}
+.form .f3{left:43%;top:50%}.form .f10{left:50%;top:50%}.form .f4{left:57%;top:50%}
+.form .f1{left:46.5%;top:62%}.form .f2{left:53.5%;top:62%}
+.form .tline{left:6%;right:6%;top:80%}
+.form .tstick{left:31%;top:74%;transform:translate(-50%,-50%) rotate(-14deg)}
+.form .fg{left:19%;top:97%}
+.form .brk{left:50%;top:10%}
+.form .lb1{left:31%;top:64%}
+.form .lb2{left:83%;top:75%}
+.vwrap{display:flex;flex-direction:column;gap:.45rem;min-width:0}
+.vbox{position:relative;width:100%;aspect-ratio:9/16;max-height:52vh;border-radius:14px;overflow:hidden;
+  border:1.5px solid rgba(251,246,234,.24);background:#000;box-shadow:0 6px 22px rgba(0,0,0,.45)}
+.vbox iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vcap{margin:0;font-size:.82rem;line-height:1.58;color:var(--mute)}
+.vcap b{color:var(--lime)} .vcap u{text-decoration:none;color:var(--amber);font-weight:800}
+.vcap a{color:var(--sky)}
+.cap-under{margin:.55rem 0 0;font-size:.95rem;line-height:1.62;color:var(--mute)}
+.cap-under b{color:var(--lime)}
+.origin{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--amber);
+  border-radius:0 14px 14px 0;padding:.65rem .9rem}
+.origin .oh{display:block;font-size:.78rem;font-weight:900;letter-spacing:.1em;color:var(--amber);margin-bottom:.35rem}
+.origin p{margin:0 0 .35rem;font-size:.85rem;line-height:1.62;color:var(--mute)}
+.origin p b{color:var(--cream)} .origin p i{font-style:italic;color:var(--lime)}
+.origin small{display:block;font-size:.72rem;color:var(--soft);line-height:1.45;padding-top:.3rem;border-top:1px dashed var(--line)}
+.tbl.rules{grid-template-columns:.8fr 1.9fr}
+
+/* 版面 */
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.1rem;align-items:start;max-width:1240px}
+.split.wide{grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr)}
+.split.narrow{grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr)}
+.stack{display:grid;gap:.6rem;max-width:1240px}
+
+/* ===== 3D 可愛火柴人 ===== */
+.fg{position:absolute;width:var(--fw,42px);z-index:6;transform:translate(-50%,-96%)}
+.fg.sm{width:calc(var(--fw,42px)*.78)} .fg.lg{width:calc(var(--fw,42px)*1.15)}
+.fg svg{display:block;width:100%;overflow:visible}
+.fg .hd{fill:url(#ghead)}
+.fg .blush{fill:rgba(232,96,60,.32)}
+.fg .fsh{fill:rgba(0,0,0,.3)}
+.fg .torso{fill:url(#gsky)}
+.fg .lb{fill:#5f95c0;transform-box:fill-box;transform-origin:50% 0}
+.fg.lime .torso{fill:url(#glime)} .fg.lime .lb{fill:#8fa73f}
+.fg.amb .torso{fill:url(#gamb)}   .fg.amb .lb{fill:#b97c1e}
+.fg.co .torso{fill:url(#gcoral)}  .fg.co .lb{fill:#b8503a}
+.fg .gArmL rect{transform:rotate(16deg)}
+.fg .gArmR rect{transform:rotate(-16deg)}
+@keyframes limbSwing{from{transform:rotate(32deg)}to{transform:rotate(-32deg)}}
+.fg.run .gArmL rect,.fg.run .gLegR rect{animation:limbSwing .42s ease-in-out infinite alternate}
+.fg.run .gArmR rect,.fg.run .gLegL rect{animation:limbSwing .42s ease-in-out infinite alternate-reverse}
+@keyframes throwArm{0%,28%{transform:rotate(42deg)}46%{transform:rotate(-100deg)}56%{transform:rotate(-72deg)}76%,100%{transform:rotate(42deg)}}
+.fg.throw .gArmR rect{animation:throwArm var(--T,3s) ease-in-out infinite}
+.fg.throw .gArmL rect{transform:rotate(24deg)}
+@keyframes hopK{0%,100%{transform:translateY(0)}45%{transform:translateY(-9px)}}
+.fg.cheer .gArmL rect{transform:rotate(156deg)}
+.fg.cheer .gArmR rect{transform:rotate(-156deg)}
+.fg.cheer svg{animation:hopK .8s cubic-bezier(.45,0,.3,1) infinite}
+@keyframes idleK{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.6px)}}
+.fg.idle svg{animation:idleK 1.6s ease-in-out infinite}
+.fg.idle.d1 svg{animation-delay:-.4s} .fg.idle.d2 svg{animation-delay:-.8s} .fg.idle.d3 svg{animation-delay:-1.2s}
+@keyframes swayK{from{transform:rotate(-9deg)}to{transform:rotate(9deg)}}
+.fg.stretch .gArmL rect{transform:rotate(146deg)}
+.fg.stretch .gArmR rect{transform:rotate(-146deg)}
+.fg.stretch svg{transform-origin:50% 100%;animation:swayK 2.6s ease-in-out infinite alternate}
+.fg.stretch.d2 svg{animation-delay:-1.3s}
+.fg.hand .gArmR rect{transform:rotate(-168deg)}
+.fg.sit{transform:translate(-50%,-84%)}
+.fg.sit .gLegL rect,.fg.sit .gLegR rect{transform:rotate(-80deg)}
+.fg.sit .gArmL rect{transform:rotate(-42deg)}
+@keyframes writeK{from{transform:rotate(-56deg)}to{transform:rotate(-70deg)}}
+.fg.sit .gArmR rect{animation:writeK .5s ease-in-out infinite alternate}
+.fg.carry .gArmL rect,.fg.carry .gArmR rect{animation:none;transform:rotate(-52deg)}
+.fg.push .gArmR rect{transform:rotate(-118deg)} .fg.push .gArmL rect{transform:rotate(-96deg)}
+
+/* ===== 舞台共用元件 ===== */
+.stage{position:relative;border-radius:12px;overflow:hidden;
+  --fw:44px; --pw:16px; --sw:21px; --fs:.62rem;
+  background:linear-gradient(180deg,#3f5a34,#2f4527);border:1.5px solid rgba(251,246,234,.24)}
+.stage.big{aspect-ratio:5/1.85; --fw:clamp(48px,5.4vw,74px); --pw:clamp(18px,2vw,27px); --sw:clamp(22px,2.4vw,33px); --fs:.82rem}
+.stage.tall{aspect-ratio:5/3; --fw:clamp(42px,4.2vw,58px); --pw:clamp(15px,1.55vw,21px); --sw:clamp(19px,1.9vw,26px); --fs:.7rem}
+.stage.mini{aspect-ratio:5/2.6; --fw:52px; --pw:20px; --sw:25px; --fs:.66rem}
+.mpin{position:absolute;width:var(--pw);aspect-ratio:.6;border-radius:3px 3px 2px 2px;
+  background:linear-gradient(180deg,var(--wood),var(--wood2));transform:translate(-50%,-100%);
+  transform-origin:50% 88%;z-index:4;display:flex;align-items:center;justify-content:center;
+  font-size:calc(var(--pw)*.42);font-weight:900;color:#3a2712;box-shadow:0 1.5px 0 rgba(0,0,0,.3)}
+.mpin.lie{transform:translate(-50%,-58%) rotate(90deg);box-shadow:none;opacity:.92}
+.mpin.hit{box-shadow:0 0 0 2.5px rgba(242,163,60,.9);opacity:1}
+.mpin.ok{box-shadow:0 0 0 3px var(--lime),0 0 12px rgba(200,221,106,.7);background:linear-gradient(180deg,#e9f2b8,#c8dd6a);color:#1d2410}
+.mpin.no{box-shadow:0 0 0 2px rgba(232,96,60,.55);opacity:.42;filter:grayscale(.55)}
+.sstick{position:absolute;width:var(--sw);height:calc(var(--sw)*.37);border-radius:3px;z-index:5;
+  background:linear-gradient(180deg,#efd9b4,var(--wood));transform:translate(-50%,-50%);
+  box-shadow:0 1.5px 4px rgba(0,0,0,.4)}
+.hoopz{position:absolute;width:calc(var(--sw)*2.4);height:calc(var(--sw)*.85);border:3px solid var(--sky);border-radius:50%;
+  transform:translate(-50%,-50%);z-index:2}
+.slab{position:absolute;transform:translate(-50%,-50%);background:rgba(20,24,15,.82);color:var(--cream);
+  padding:.12rem .48rem;border-radius:5px;font-size:var(--fs);font-weight:800;white-space:nowrap;z-index:7;line-height:1.3}
+.slab.am{color:var(--amber)} .slab.li{color:var(--lime)} .slab.sk{color:var(--sky)} .slab.co{color:#ffb4a0}
+.szone{position:absolute;border:1.5px dashed rgba(251,246,234,.42);border-radius:8px;z-index:1}
+.svert{position:absolute;width:0;border-left:2px dashed rgba(251,246,234,.5);z-index:1}
+.shoriz{position:absolute;height:0;border-top:2px dashed rgba(251,246,234,.5);z-index:1}
+.pop{position:absolute;background:var(--lime);color:#1d2410;font-weight:900;font-size:calc(var(--fs,.62rem)*1.12);
+  padding:.17rem .55rem;border-radius:8px;z-index:8;white-space:nowrap;
+  transform:translate(-50%,-50%) scale(0);animation:popK var(--T,5s) infinite}
+.pop.am{background:var(--amber);color:#2a1d0d}
+.pop.co{background:var(--coral);color:#fff}
+@keyframes popK{0%,64%{transform:translate(-50%,-50%) scale(0)}72%{transform:translate(-50%,-50%) scale(1.18)}
+ 78%,92%{transform:translate(-50%,-50%) scale(1)}98%,100%{transform:translate(-50%,-50%) scale(0)}}
+.bub{position:absolute;background:var(--cream);color:#2a2118;font-size:var(--fs,.62rem);font-weight:800;
+  padding:.2rem .55rem;border-radius:10px;transform:translate(-50%,-100%);z-index:8;white-space:nowrap;line-height:1.3}
+.bub:after{content:"";position:absolute;left:50%;bottom:-5px;transform:translateX(-50%);
+  border:5px solid transparent;border-top-color:var(--cream);border-bottom:0}
+@keyframes fadeio{0%,10%{opacity:0}20%,80%{opacity:1}92%,100%{opacity:0}}
+@keyframes fadeLate{0%,70%{opacity:0}78%,94%{opacity:1}100%{opacity:0}}
+.crate{position:absolute;width:calc(var(--fw,42px)*.85);aspect-ratio:1.55;border-radius:4px;transform:translate(-50%,-100%);
+  background:linear-gradient(180deg,#7a5a33,#5d431f);border:2px solid #8f6a3a;z-index:3}
+.wboard{position:absolute;width:calc(var(--fw,42px)*1.3);aspect-ratio:1.5;border-radius:4px;transform:translate(-50%,-100%);
+  background:#fbf6ea;border:3px solid #8f6a3a;z-index:3;
+  display:flex;align-items:center;justify-content:center;font-size:calc(var(--fs,.62rem)*.92);font-weight:900;color:#2a2118;text-align:center;line-height:1.25}
+.paperc{position:absolute;width:calc(var(--fw,42px)*.86);aspect-ratio:1.45;border-radius:3px;transform:translate(-50%,-50%);
+  background:#fbf6ea;z-index:5;display:flex;align-items:center;justify-content:center;
+  font-size:calc(var(--fs,.62rem)*.86);font-weight:900;color:#b04226;text-align:center;line-height:1.2}
+.mbar{position:absolute;height:13px;border-radius:99px;background:rgba(251,246,234,.15);
+  border:1px solid var(--line);z-index:7;overflow:hidden}
+.mbar i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,var(--wood2),var(--amber))}
+.swap{position:absolute;z-index:8}
+.swap i{position:absolute;left:0;top:0;transform:translate(-50%,-50%);font-style:normal;opacity:0;
+  background:rgba(20,24,15,.88);color:var(--cream);padding:.16rem .6rem;border-radius:7px;
+  font-size:calc(var(--fs,.62rem)*1.15);font-weight:900;white-space:nowrap;font-variant-numeric:tabular-nums}
+.swap i.g{background:var(--lime);color:#1d2410}
+.swap i.r{background:var(--coral);color:#fff}
+
+/* ---- S1 封面 ---- */
+.s1 .thr{left:14%;top:96%}
+.s1 .q1{left:6%;top:78%}.s1 .q2{left:22%;top:76%}
+.s1 .tline{left:4%;right:4%;top:70%}
+.s1 .p10{left:52%;top:36%}.s1 .p7{left:62%;top:22%}.s1 .p12{left:44%;top:50%;animation:s1pin var(--T) infinite}
+.s1 .p3{left:70%;top:42%}.s1 .p5{left:58%;top:56%}
+.s1 .p9{left:76%;top:26%}.s1 .p4{left:50%;top:64%}.s1 .p11{left:66%;top:60%}.s1 .p6{left:80%;top:54%}
+@keyframes s1pin{0%,52%{transform:translate(-50%,-100%) rotate(0)}58%,88%{transform:translate(-50%,-100%) rotate(84deg)}94%,100%{transform:translate(-50%,-100%) rotate(0)}}
+.s1 .sstick{animation:s1fly var(--T) linear infinite}
+@keyframes s1fly{0%,38%{left:19%;top:84%;transform:translate(-50%,-50%) rotate(-22deg)}
+ 44%{left:26%;top:44%}50%{left:34%;top:24%}56%{left:41%;top:36%}
+ 60%,100%{left:43%;top:56%;transform:translate(-50%,-50%) rotate(80deg)}}
+.s1 .wboard{left:91%;top:88%}
+.s1 .swap{left:91%;top:64%}
+.s1 .swap i:nth-child(1){animation:sA var(--T) step-end infinite}
+.s1 .swap i:nth-child(2){animation:sB var(--T) step-end infinite}
+@keyframes sA{0%{opacity:1}58%{opacity:0}100%{opacity:0}}
+@keyframes sB{0%{opacity:0}58%{opacity:1}100%{opacity:1}}
+
+/* ---- 第一節熱身三回合（S4） ---- */
+.w1 .szone{left:4%;width:26%;top:46%;height:46%}
+.w1 .mv{left:20%;top:92%;animation:w1x var(--T) ease-in-out infinite}
+@keyframes w1x{0%,4%{left:20%}42%,50%{left:78%}92%,100%{left:20%}}
+.w1 .mv svg{animation:w1f var(--T) step-end infinite}
+@keyframes w1f{0%{transform:scaleX(1)}46%{transform:scaleX(-1)}96%,100%{transform:scaleX(1)}}
+.w1 .lieC{left:80%;top:90%;animation:w1take var(--T) step-end infinite}
+@keyframes w1take{0%{opacity:1}45%{opacity:0}100%{opacity:0}}
+.w1 .pinc{top:66%;z-index:7;animation:w1carry var(--T) ease-in-out infinite}
+@keyframes w1carry{0%,44%{opacity:0;left:74%}47%{opacity:1;left:73%}90%{opacity:1;left:18%}93%,100%{opacity:0;left:18%}}
+.w1 .home{left:12%;top:90%;animation:w1home var(--T) step-end infinite}
+@keyframes w1home{0%{opacity:0}93%{opacity:1}100%{opacity:1}}
+
+.w2 .fg{left:14%;top:94%}
+.w2 .roll{left:22%;top:88%;animation:w2roll var(--T) cubic-bezier(.3,.6,.4,1) infinite}
+@keyframes w2roll{0%,42%{left:22%;transform:translate(-50%,-58%) rotate(90deg)}
+ 64%,100%{left:72%;transform:translate(-50%,-58%) rotate(450deg)}}
+.w2 .hoopz{left:72%;top:90%;animation:w2glow var(--T) infinite}
+@keyframes w2glow{0%,60%{box-shadow:none}68%,86%{box-shadow:0 0 0 5px rgba(200,221,106,.42)}96%,100%{box-shadow:none}}
+.w2 .pop{left:72%;top:58%}
+
+.w3 .fg{left:13%;top:94%}
+.w3 .svert{left:70%;top:34%;bottom:6%}
+.w3 .sstick{animation:w3fly var(--T) linear infinite}
+@keyframes w3fly{0%,42%{left:18%;top:80%;transform:translate(-50%,-50%) rotate(-24deg)}
+ 50%{left:32%;top:44%}56%{left:46%;top:32%}62%{left:58%;top:46%}
+ 68%,100%{left:67%;top:88%;transform:translate(-50%,-50%) rotate(78deg)}}
+.w3 .pop{left:67%;top:60%}
+
+/* ---- 三距離校準拋（S4） ---- */
+.w4 .fg{left:10%;top:96%}
+.w4 .dl{position:absolute;width:0;border-left:2px dashed rgba(251,246,234,.5);top:26%;bottom:6%;z-index:2}
+.w4 .dz{position:absolute;top:56%;height:38%;background:rgba(200,221,106,.14);
+  border-left:1px solid rgba(200,221,106,.34);border-right:1px solid rgba(200,221,106,.34);border-radius:4px;z-index:1}
+.w4 .l2{left:38%} .w4 .l3{left:58%} .w4 .l4{left:78%}
+.w4 .z2{left:33.5%;width:9%} .w4 .z3{left:53.5%;width:9%} .w4 .z4{left:73.5%;width:9%}
+.w4 .n2{left:38%;top:16%} .w4 .n3{left:58%;top:16%} .w4 .n4{left:78%;top:16%}
+.w4 .sstick{z-index:6;animation:w4fly var(--T) linear infinite}
+@keyframes w4fly{
+ 0%,5%{left:15%;top:82%;transform:translate(-50%,-50%) rotate(-24deg)}
+ 12%{left:25%;top:44%}19%{left:35%;top:36%}
+ 27%,32%{left:45%;top:86%;transform:translate(-50%,-50%) rotate(74deg)}
+ 33%,38%{left:15%;top:82%;transform:translate(-50%,-50%) rotate(-24deg)}
+ 45%{left:30%;top:42%}52%{left:46%;top:34%}
+ 60%,65%{left:58%;top:86%;transform:translate(-50%,-50%) rotate(74deg)}
+ 66%,71%{left:15%;top:82%;transform:translate(-50%,-50%) rotate(-24deg)}
+ 79%{left:38%;top:38%}86%{left:60%;top:28%}
+ 94%,100%{left:77%;top:86%;transform:translate(-50%,-50%) rotate(74deg)}}
+.w4 .p1{left:45%;top:52%;animation:w4a var(--T) step-end infinite}
+.w4 .p2{left:58%;top:52%;animation:w4b var(--T) step-end infinite}
+.w4 .p3{left:77%;top:52%;animation:w4c var(--T) step-end infinite}
+@keyframes w4a{0%{transform:translate(-50%,-50%) scale(0)}27%{transform:translate(-50%,-50%) scale(1)}
+ 33%,100%{transform:translate(-50%,-50%) scale(0)}}
+@keyframes w4b{0%{transform:translate(-50%,-50%) scale(0)}60%{transform:translate(-50%,-50%) scale(1)}
+ 66%,100%{transform:translate(-50%,-50%) scale(0)}}
+@keyframes w4c{0%{transform:translate(-50%,-50%) scale(0)}94%,100%{transform:translate(-50%,-50%) scale(1)}}
+.lines3{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin-top:.55rem;
+  border-top:1px dashed var(--line);padding-top:.5rem}
+.lines3 div{font-size:.88rem;line-height:1.6;color:var(--mute)}
+.lines3 b{display:block;color:var(--sky);font-weight:900;margin-bottom:.1rem}
+.lines3 .mid b{color:var(--amber)}
+.lines3 u{text-decoration:none;color:var(--amber);font-weight:800}
+
+/* ---- S2 三格對照 ---- */
+.tri{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;max-width:1240px}
+.tri .cell{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:.7rem .8rem;transition:.3s}
+.tri .cell.hi{background:rgba(200,221,106,.13);border-color:rgba(200,221,106,.5)}
+.tri h4{margin:0 0 .5rem;font-size:1.16rem;font-weight:900}
+.tri .cell.hi h4{color:var(--lime)}
+.tri .stage{aspect-ratio:5/2.9}
+.tri p{margin:.55rem 0 0;font-size:clamp(.9rem,1.15vw,1.02rem);line-height:1.66;color:var(--mute)}
+.tri p b{color:var(--cream)}
+.c1 .fg{left:26%;top:92%}
+.c1 .ball{position:absolute;width:12px;height:12px;border-radius:50%;background:#f0e6d2;z-index:5;
+  transform:translate(-50%,-50%);animation:c1f var(--T) linear infinite}
+@keyframes c1f{0%,30%{left:32%;top:70%}50%{left:60%;top:22%}70%,100%{left:88%;top:78%}}
+.c1 .rule{position:absolute;left:6%;right:6%;bottom:14%;height:0;border-top:2px dotted rgba(251,246,234,.4)}
+.c2 .fg{left:30%;top:92%}
+.c2 .shot{position:absolute;width:15px;height:15px;border-radius:50%;background:#8d8d94;z-index:5;
+  box-shadow:inset -2px -2px 3px rgba(0,0,0,.4);transform:translate(-50%,-50%);animation:c2f var(--T) linear infinite}
+@keyframes c2f{0%,34%{left:36%;top:66%}54%{left:58%;top:44%}72%,100%{left:76%;top:82%}}
+.c3 .fg.thr{left:18%;top:92%}
+.c3 .fg.o1{left:6%;top:70%;width:30px}.c3 .fg.o2{left:8%;top:88%;width:32px}
+.c3 .sstick{animation:c3f var(--T) linear infinite}
+@keyframes c3f{0%,42%{left:23%;top:80%;transform:translate(-50%,-50%) rotate(-20deg)}
+ 50%{left:44%;top:52%}58%,100%{left:64%;top:76%;transform:translate(-50%,-50%) rotate(80deg)}}
+.c3 .pb{left:64%;top:74%;animation:c3p var(--T) infinite}
+@keyframes c3p{0%,56%{transform:translate(-50%,-100%) rotate(0)}62%,100%{transform:translate(-50%,-100%) rotate(84deg)}}
+.c3 .bub{left:12%;top:52%;animation:fadeio var(--T) infinite}
+
+/* ---- S3 計分反轉兩格 ---- */
+.duo{display:grid;grid-template-columns:1fr auto 1fr;gap:.9rem;align-items:center;max-width:1240px}
+.duo .neq{font-size:clamp(2rem,4.5vw,3.2rem);font-weight:900;color:var(--coral);line-height:1;text-align:center}
+.duo .box{background:rgba(18,13,7,.5);border:1px solid var(--line);border-radius:16px;padding:.75rem .85rem}
+.duo h4{margin:0 0 .5rem;font-size:.95rem;font-weight:900;color:var(--amber)}
+.duo .cap{margin:.5rem 0 0;font-size:.82rem;line-height:1.55;color:var(--mute)}
+.duo .cap b{color:var(--lime)}
+.d1 .sstick{left:48%;top:62%;transform:translate(-50%,-50%) rotate(8deg)}
+.d1 .pop{left:48%;top:18%}
+.d2 .sstick{left:76%;top:44%;transform:translate(-50%,-50%) rotate(-12deg)}
+.d2 .pop{left:76%;top:16%}
+
+/* ---- S5 安全口令卡 ---- */
+.cmds{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;max-width:1240px;margin:.9rem 0 .55rem}
+.cmd{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:.55rem .7rem;
+  transition:.35s;position:relative}
+.cmd em{font-style:normal;font-size:1.5rem;font-weight:900;line-height:1;color:var(--soft)}
+.cmd h4{margin:.2rem 0 0;font-size:1.02rem;font-weight:900;color:var(--cream)}
+.cmd.on{background:rgba(242,163,60,.16);border-color:rgba(242,163,60,.6);transform:translateY(-3px)}
+.cmd.on em,.cmd.on h4{color:var(--amber)}
+.cmd.on.stop{background:rgba(232,96,60,.16);border-color:rgba(232,96,60,.6)}
+.cmd.on.stop em,.cmd.on.stop h4{color:#ffb4a0}
+.cmd.on.go{background:rgba(200,221,106,.15);border-color:rgba(200,221,106,.6)}
+.cmd.on.go em,.cmd.on.go h4{color:var(--lime)}
+.c5 .tline{left:6%;right:6%;top:62%}
+.c5 .f1{left:26%;top:88%;width:40px}
+.c5 .f2{left:44%;top:88%;width:40px}
+.c5 .f3{left:14%;top:88%;width:34px}
+.c5 .f4{left:60%;top:90%;width:34px}
+.c5 .runner{left:70%;top:88%;width:38px}
+.c5 .mp1{left:74%;top:44%}.c5 .mp2{left:84%;top:36%}.c5 .mp3{left:64%;top:34%}
+.c5 .teach{left:90%;top:92%;width:38px}
+.c5 .slab.st{left:50%;top:12%}
+
+/* ---- S6 兩場同步 ---- */
+.c6 .divider{left:50%;top:4%;bottom:4%}
+.c6 .tlineA{left:4%;width:42%;top:70%}
+.c6 .tlineB{left:54%;width:42%;top:70%}
+.c6 .fA{left:14%;top:88%;width:36px}
+.c6 .fB{left:64%;top:88%;width:36px}
+.c6 .qA1{left:6%;top:96%;width:28px}.c6 .qB1{left:56%;top:96%;width:28px}
+.c6 .a1{left:22%;top:38%}.c6 .a2{left:30%;top:30%}.c6 .a3{left:14%;top:30%}.c6 .a4{left:26%;top:48%}
+.c6 .a5{left:36%;top:42%;animation:c6pA var(--T) infinite}
+@keyframes c6pA{0%,50%{transform:translate(-50%,-100%) rotate(0)}56%,100%{transform:translate(-50%,-100%) rotate(84deg)}}
+.c6 .b1{left:72%;top:38%}.c6 .b2{left:80%;top:30%}.c6 .b3{left:64%;top:30%}
+.c6 .b4{left:76%;top:48%;animation:c6pB1 var(--T) infinite}
+.c6 .b5{left:86%;top:42%;animation:c6pB2 var(--T) infinite}
+@keyframes c6pB1{0%,52%{transform:translate(-50%,-100%) rotate(0)}58%,100%{transform:translate(-50%,-100%) rotate(-84deg)}}
+@keyframes c6pB2{0%,54%{transform:translate(-50%,-100%) rotate(0)}60%,100%{transform:translate(-50%,-100%) rotate(84deg)}}
+.c6 .stA{animation:c6fA var(--T) linear infinite}
+@keyframes c6fA{0%,30%{left:19%;top:80%;transform:translate(-50%,-50%) rotate(-22deg)}
+ 40%{left:27%;top:52%}48%{left:33%;top:44%}
+ 54%,100%{left:36%;top:52%;transform:translate(-50%,-50%) rotate(78deg)}}
+.c6 .stB{animation:c6fB var(--T) linear infinite}
+@keyframes c6fB{0%,30%{left:69%;top:80%;transform:translate(-50%,-50%) rotate(-22deg)}
+ 40%{left:76%;top:52%}48%{left:81%;top:44%}
+ 56%,100%{left:81%;top:52%;transform:translate(-50%,-50%) rotate(78deg)}}
+.c6 .wbA{left:44%;top:96%}.c6 .wbB{left:94%;top:96%}
+.c6 .popA{left:34%;top:20%}.c6 .popB{left:82%;top:20%}
+.c6 .slab.sa{left:24%;top:8%}.c6 .slab.sb{left:74%;top:8%}
+
+/* ---- S7 三職務輸送帶 ---- */
+.belt{position:relative;width:100%;height:clamp(168px,23vh,215px);--fw:44px;background:rgba(18,13,7,.5);
+  border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.belt .track{position:absolute;left:7%;right:7%;top:46%;height:0;border-top:3px dashed rgba(251,246,234,.3)}
+.node{position:absolute;top:46%;transform:translate(-50%,-50%);width:20%;text-align:center;z-index:4}
+.node b{display:block;background:rgba(20,24,15,.85);border:1.5px solid var(--line);border-radius:11px;
+  padding:.3rem .1rem;font-size:.78rem;font-weight:900;color:var(--cream)}
+.node span{display:block;font-size:.66rem;color:var(--soft);margin-top:.24rem;line-height:1.35}
+.node.n1{left:14%} .node.n2{left:38%} .node.n3{left:62%} .node.n4{left:87%}
+.node.n1 b{border-color:rgba(143,192,228,.6);color:var(--sky)}
+.node.n2 b{border-color:rgba(200,221,106,.6);color:var(--lime)}
+.node.n3 b{border-color:rgba(242,163,60,.65);color:var(--amber)}
+.node.n4 b{border-color:rgba(251,246,234,.28);color:var(--soft)}
+.belt .arw{position:absolute;top:46%;transform:translate(-50%,-50%);color:var(--soft);font-size:.95rem;z-index:3}
+.belt .arw.a1{left:26%}.belt .arw.a2{left:50%}.belt .arw.a3{left:74.5%}
+.belt .fg{top:99%;animation:beltMove var(--T) cubic-bezier(.5,0,.3,1) infinite}
+@keyframes beltMove{0%,14%{left:14%}25%,39%{left:38%}50%,64%{left:62%}75%,89%{left:87%}100%{left:87%}}
+.belt .glow{position:absolute;top:46%;transform:translate(-50%,-50%);width:20%;height:3.1rem;
+  border-radius:12px;background:rgba(242,163,60,.2);z-index:2;animation:beltMove var(--T) cubic-bezier(.5,0,.3,1) infinite}
+.belt .cyc{position:absolute;left:50%;top:6%;transform:translate(-50%,0);font-size:.72rem;color:var(--soft)}
+
+/* ---- S8 計分模板 ---- */
+.sheet{background:#fbf6ea;color:#2a2118;border-radius:12px;padding:.7rem .8rem;max-width:640px;
+  font-size:.78rem;line-height:1.5;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.sheet h4{margin:0 0 .45rem;font-size:.86rem;color:#7a4a12;font-weight:900;letter-spacing:.04em}
+.sheet .row{display:grid;grid-template-columns:2rem 2.6rem 1fr 2.4rem 2.6rem;gap:.3rem;
+  padding:.26rem 0;border-top:1px solid rgba(42,33,24,.16);align-items:center}
+.sheet .row.hd{border-top:0;font-weight:900;color:#7a4a12;font-size:.7rem}
+.sheet .row.on{background:rgba(242,163,60,.24);border-radius:5px}
+.sheet .bx{font-size:.68rem;color:#5a4a38}
+.sheet .bx s{text-decoration:none;padding:0 .12rem}
+.sheet .bx s.k{background:#f2a33c;border-radius:3px;font-weight:900;color:#2a1d0d;padding:.04rem .2rem}
+.saybox{background:var(--card);border:1px solid rgba(200,221,106,.4);border-radius:14px;padding:.7rem .9rem;font-size:.92rem;line-height:1.65}
+.saybox .tpl{color:var(--lime);font-weight:900;font-size:1rem;display:block;margin-bottom:.4rem}
+.saybox .eg{color:var(--mute);font-size:.86rem}
+.saybox .eg b{color:var(--cream)}
+
+/* ---- S9 出口票 ---- */
+.c9 .fg{left:15%;top:92%}
+.c9 .ticket{position:absolute;left:46%;top:34%;transform:translate(-50%,-50%);width:36%;
+  background:#fbf6ea;color:#2a2118;border-radius:6px;padding:.4rem .5rem;font-size:.56rem;
+  line-height:1.45;z-index:6;font-weight:800;text-align:center}
+.c9 .ticket u{text-decoration:none;padding:.02rem .14rem;border-radius:3px}
+.c9 .ticket u.a{animation:hlA var(--T) step-end infinite}
+.c9 .ticket u.b{animation:hlB var(--T) step-end infinite}
+@keyframes hlA{0%,24%{background:transparent}30%,100%{background:#f2a33c}}
+@keyframes hlB{0%,44%{background:transparent}50%,100%{background:#c8dd6a}}
+.c9 .card{left:34%;top:84%;animation:c9card var(--T) ease-in-out infinite}
+@keyframes c9card{0%,52%{left:34%;top:84%;opacity:0}58%{opacity:1}72%{left:60%;top:56%;opacity:1}
+ 84%,100%{left:80%;top:70%;opacity:1}}
+.c9 .folder{position:absolute;left:80%;top:84%;transform:translate(-50%,-100%);width:52px;height:36px;
+  border-radius:4px 8px 4px 4px;background:linear-gradient(180deg,#c19a63,#8f6a3a);z-index:3;
+  display:flex;align-items:flex-end;justify-content:center;padding-bottom:.15rem;
+  font-size:.5rem;font-weight:900;color:#2a1d0d}
+
+/* ---- S10 湊到十 ---- */
+.c10 .fg{left:12%;top:92%}
+.c10 .q1{left:44%;top:88%}.c10 .q2{left:56%;top:88%}.c10 .q3{left:68%;top:88%}.c10 .q4{left:80%;top:88%}
+.c10 .q3{animation:c10a var(--T) infinite}
+@keyframes c10a{0%,26%{transform:translate(-50%,-100%) rotate(0)}32%,60%{transform:translate(-50%,-100%) rotate(84deg)}66%,100%{transform:translate(-50%,-100%) rotate(0)}}
+.c10 .q1,.c10 .q2{animation:c10b var(--T) infinite}
+@keyframes c10b{0%,66%{transform:translate(-50%,-100%) rotate(0)}72%,100%{transform:translate(-50%,-100%) rotate(84deg)}}
+.c10 .board{position:absolute;left:20%;top:26%;transform:translate(-50%,-50%);z-index:8}
+.c10 .board i{position:absolute;left:0;top:0;transform:translate(-50%,-50%);font-style:normal;opacity:0;
+  background:rgba(20,24,15,.9);border:2px solid var(--line);border-radius:10px;
+  padding:.24rem .7rem;font-size:1.05rem;font-weight:900;white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--cream)}
+.c10 .board i.g{border-color:var(--lime);color:var(--lime)}
+.c10 .board i.r{border-color:var(--coral);color:#ffb4a0}
+.c10 .board i:nth-child(1){animation:cb1 var(--T) step-end infinite}
+.c10 .board i:nth-child(2){animation:cb2 var(--T) step-end infinite}
+.c10 .board i:nth-child(3){animation:cb3 var(--T) step-end infinite}
+.c10 .board i:nth-child(4){animation:cb4 var(--T) step-end infinite}
+.c10 .board i:nth-child(5){animation:cb5 var(--T) step-end infinite}
+@keyframes cb1{0%{opacity:1}32%{opacity:0}100%{opacity:0}}
+@keyframes cb2{0%{opacity:0}32%{opacity:1}52%{opacity:0}100%{opacity:0}}
+@keyframes cb3{0%{opacity:0}52%{opacity:1}72%{opacity:0}100%{opacity:0}}
+@keyframes cb4{0%{opacity:0}72%{opacity:1}88%{opacity:0}100%{opacity:0}}
+@keyframes cb5{0%{opacity:0}88%{opacity:1}100%{opacity:1}}
+.c10 .slab.tag{left:20%;top:48%}
+
+/* ---- S11 兩隊輪替 ---- */
+.wheel{position:relative;width:100%;aspect-ratio:1/.62;max-width:330px;margin:0 auto}
+.wheel .hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:32%;aspect-ratio:1;border-radius:50%;background:rgba(18,13,7,.6);border:2px dashed var(--line);
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  font-size:.62rem;font-weight:900;color:var(--soft);line-height:1.3}
+.wheel .tm{position:absolute;transform:translate(-50%,-50%);width:34%;text-align:center}
+.wheel .tm b{display:block;border-radius:11px;padding:.28rem .1rem;font-size:.8rem;font-weight:900;
+  border:1.5px solid var(--line);background:rgba(20,24,15,.85)}
+.wheel .tm span{display:block;font-size:.64rem;margin-top:.2rem;font-weight:800}
+.wheel .tA{left:19%;top:50%} .wheel .tB{left:81%;top:50%}
+.wheel .swp{position:absolute;left:50%;top:14%;transform:translateX(-50%);font-size:.68rem;font-weight:800;color:var(--mute)}
+.wheel .tm.thr b{border-color:rgba(242,163,60,.75);color:var(--amber);background:rgba(242,163,60,.16)}
+.wheel .tm.thr span{color:var(--amber)}
+.wheel .tm.sco b{border-color:rgba(200,221,106,.7);color:var(--lime)} .wheel .tm.sco span{color:var(--lime)}
+.wheel .tm.fld b{border-color:rgba(143,192,228,.7);color:var(--sky)} .wheel .tm.fld span{color:var(--sky)}
+.c11 .fA{left:20%;top:88%;width:36px}
+.c11 .tline{left:5%;right:5%;top:74%}
+.c11 .mbar{left:5%;top:10%;width:42%}
+.c11 .slab.d3{left:22%;top:82%}
+.c11 .pop{left:66%;top:74%}
+
+/* ---- S12 邀請卡 ---- */
+.c12 .fg.a{left:26%;top:92%}
+.c12 .fg.b{left:54%;top:92%}
+.c12 .fg.c{left:82%;top:86%}
+.c12 .b1{left:36%;top:48%;animation:fadeio var(--T) infinite}
+.c12 .b2{left:36%;top:64%;animation:c12b2 var(--T) infinite}
+@keyframes c12b2{0%,30%{opacity:0}38%,80%{opacity:1}92%,100%{opacity:0}}
+.c12 .b3{left:62%;top:78%;animation:fadeLate var(--T) infinite}
+.c12 .card1{animation:c12a var(--T) ease-in-out infinite}
+@keyframes c12a{0%,10%{left:24%;top:84%;opacity:0}16%{opacity:1}34%{left:46%;top:46%}
+ 50%,66%{left:68%;top:76%;opacity:1}74%,100%{left:68%;top:76%;opacity:0}}
+.c12 .card2{animation:c12b var(--T) ease-in-out infinite}
+@keyframes c12b{0%,40%{left:24%;top:84%;opacity:0}46%{opacity:1}64%{left:56%;top:40%}
+ 78%,94%{left:84%;top:70%;opacity:1}100%{opacity:0}}
+
+/* ---- S13 證據卡 ---- */
+.evs{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;max-width:1000px}
+.ev{background:#fbf6ea;color:#2a2118;border-radius:11px;padding:.55rem .65rem;
+  font-size:.72rem;line-height:1.45;box-shadow:0 5px 14px rgba(0,0,0,.3);
+  opacity:0;animation:evIn .55s ease-out both}
+.ev:nth-child(1){animation-delay:.15s}.ev:nth-child(2){animation-delay:.45s}
+.ev:nth-child(3){animation-delay:.75s}.ev:nth-child(4){animation-delay:1.05s}
+@keyframes evIn{from{opacity:0;transform:translateY(12px) rotate(-2deg)}to{opacity:1;transform:none}}
+.ev b{display:block;color:#7a4a12;font-size:.78rem;font-weight:900;margin-bottom:.2rem}
+
+/* 出處 */
+.refs{max-width:1100px;font-size:.98rem;line-height:1.85;color:#e6dbc7;padding-left:1.15rem;margin:.3rem 0 0}
+.refs b{color:var(--lime)}
+
+/* 導覽 */
+.controls{position:fixed;bottom:1rem;right:1.15rem;z-index:20;display:flex;align-items:center;gap:.5rem}
+.controls button{border:1px solid rgba(251,246,234,.35);background:rgba(28,20,12,.92);color:var(--cream);
+  width:2.4rem;height:2.4rem;border-radius:50%;font-size:1rem;cursor:pointer}
+.controls button:hover{background:var(--amber);color:#2a1d0d}
+.count{font-size:.82rem;color:var(--mute);min-width:3.9rem;text-align:center;font-variant-numeric:tabular-nums}
+.progress{position:fixed;top:0;left:0;height:3px;background:var(--amber);z-index:21;transition:width .3s}
+
+/* RWD */
+@media(max-width:1000px){ .cmds{grid-template-columns:repeat(2,1fr)} .evs{grid-template-columns:repeat(2,1fr)} }
+@media(max-width:900px){
+  .split,.split.wide,.split.narrow{grid-template-columns:1fr}
+  .tri{grid-template-columns:1fr}
+  .duo{grid-template-columns:1fr;gap:.5rem}
+  .duo .neq{text-align:center;font-size:2rem}
+  .t-233,.t-244,.t-234,.t-133,.t-2,.t-11,.t-323{grid-template-columns:1fr}
+  .tbl .h{display:none}
+  .slide{padding-bottom:4.6rem}
+  h2{font-size:clamp(1.3rem,5.4vw,1.8rem)}
+  .sheet .row{grid-template-columns:1.6rem 2.2rem 1fr 2rem 2.2rem;font-size:.68rem}
+}
+@media(max-width:560px){ .stage.big,.stage.tall{aspect-ratio:5/3.6} .cmds{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<radialGradient id="ghead" cx="38%" cy="30%" r="80%"><stop offset="0%" stop-color="#fff6e6"/><stop offset="100%" stop-color="#eccfa0"/></radialGradient>
+<linearGradient id="gsky" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#b7dcf5"/><stop offset="100%" stop-color="#69a3cf"/></linearGradient>
+<linearGradient id="glime" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#e3f0a6"/><stop offset="100%" stop-color="#a3bc4d"/></linearGradient>
+<linearGradient id="gamb" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffd08e"/><stop offset="100%" stop-color="#d98a1f"/></linearGradient>
+<linearGradient id="gcoral" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffb9a5"/><stop offset="100%" stop-color="#d2624a"/></linearGradient>
+</defs></svg>
+<i class="progress" id="bar"></i>
+<main class="deck" aria-live="polite">
+
+<!-- ===== 01 封面 ===== -->
+<section class="slide">
+  <span class="num">01 / 15</span>
+  <h1 class="title">木棋 Mölkky<br>大挑戰</h1>
+  <div class="pills">
+    <span class="pill">國小五年級・健康與體育</span>
+    <span class="pill">兩節 80 分鐘</span>
+    <span class="pill g">南一版五下〈投其所好〉活動 3「拋」磚引玉</span>
+  </div>
+  <p class="author">教學設計者：<b>Ｆ114045 賴奕芸</b></p>
+  <div class="stage big s1" style="--T:6s;max-width:1080px;margin-top:.9rem">
+    <i class="shoriz tline"></i>
+    <i class="fg sm idle d1 q2"></i><i class="fg lime sm idle d2 q1"></i>
+    <i class="fg throw thr"></i>
+    <i class="mpin p10">10</i><i class="mpin p7">7</i><i class="mpin p12">12</i>
+    <i class="mpin p3">3</i><i class="mpin p5">5</i>
+    <i class="mpin p9">9</i><i class="mpin p4">4</i><i class="mpin p11">11</i><i class="mpin p6">6</i>
+    <i class="sstick"></i>
+    <i class="wboard">計分板</i>
+    <span class="swap"><i>0 分</i><i class="g">12 分</i></span>
+  </div>
+</section>
+
+<!-- ===== 02 為什麼選木棋 ===== -->
+<section class="slide">
+  <span class="num">02 / 15</span>
+  <h2>為什麼選木棋</h2>
+  <div class="tri">
+    <div class="cell">
+      <h4>壘球擲遠</h4>
+      <div class="stage mini c1" style="--T:4.2s">
+        <i class="shoriz rule"></i><i class="fg push"></i><i class="ball"></i>
+      </div>
+      <p><b>教材提示｜</b>投擲具有相當危險性<br><b>設計判斷｜</b>成績容易直接排列；較不擅長者容易只看見名次。</p>
+    </div>
+    <div class="cell">
+      <h4>推鉛球</h4>
+      <div class="stage mini c2" style="--T:4.2s">
+        <i class="fg co push"></i><i class="shot"></i>
+      </div>
+      <p><b>教材提示｜</b>器材與動作安全需特別注意<br><b>設計判斷｜</b>器材風險較高，個人成績競技的壓力也更明顯。</p>
+    </div>
+    <div class="cell hi">
+      <h4>木棋 Mölkky</h4>
+      <div class="stage mini c3" style="--T:4.2s">
+        <i class="fg lime idle o1"></i><i class="fg lime idle d2 o2"></i>
+        <i class="fg throw thr"></i><i class="sstick"></i>
+        <i class="mpin pb">8</i><i class="mpin" style="left:76%;top:66%">4</i><i class="mpin" style="left:84%;top:56%">11</i>
+        <span class="bub">下一球打哪根？</span>
+      </div>
+      <p><b>教材提示｜</b>不限年齡、體能需求低<br><b>設計判斷｜</b>團隊共用分數與策略：<b>一球失誤能被下一球的選擇接住</b>。</p>
+    </div>
+  </div>
+  <p class="punch">課本建議的<b>第五、六節</b>，正好可設計為<em>兩節連續課</em>。</p>
+</section>
+
+<!-- ===== 03 木棋是什麼：器材・來源・正式規則 ===== -->
+<section class="slide">
+  <span class="num">03 / 15</span>
+  <h2>木棋是什麼</h2>
+  <div class="split" style="grid-template-columns:minmax(0,1fr) minmax(0,.42fr) minmax(0,1.02fr)">
+    <div>
+      <div class="stage form" style="--T:5s">
+        <span class="slab am brk">12 根數字柱（官方起始陣型）</span>
+        <i class="mpin f7">7</i><i class="mpin f9">9</i><i class="mpin f8">8</i>
+        <i class="mpin f5">5</i><i class="mpin f11">11</i><i class="mpin f12">12</i><i class="mpin f6">6</i>
+        <i class="mpin f3">3</i><i class="mpin f10">10</i><i class="mpin f4">4</i>
+        <i class="mpin f1">1</i><i class="mpin f2">2</i>
+        <i class="shoriz tline"></i>
+        <i class="sstick tstick"></i>
+        <span class="slab li lb1">1 根投擲柱（無數字）</span>
+        <span class="slab lb2">投擲線　3～4 m</span>
+        <i class="fg throw"></i>
+      </div>
+      <p class="cap-under">起始時 12 根柱子緊靠成陣；<b>被打倒的柱子在落點原地立起</b>，所以柱陣會越打越散。</p>
+    </div>
+    <div class="vwrap">
+      <div class="vbox">
+        <iframe src="https://www.youtube-nocookie.com/embed/YXqsaMzSROY?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=YXqsaMzSROY&amp;controls=1&amp;playsinline=1&amp;rel=0&amp;modestbranding=1"
+          title="木棋 Mölkky 實際玩法示範" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <p class="vcap"><b>靜音播放</b>，只看動作：<u>低手拋、柱子倒下、原地立起</u>。<br>
+      <a href="https://youtube.com/shorts/YXqsaMzSROY" target="_blank" rel="noopener">YouTube Shorts 原片</a>（需連網）</p>
+    </div>
+    <div class="stack" style="gap:.6rem">
+      <div class="origin">
+        <span class="oh">木棋從哪裡來</span>
+        <p><b>芬蘭</b>的傳統戶外木製投擲遊戲，1996 年由芬蘭 <b>Lahti</b> 地區的 Tuoterengas 推出，形式源自更古老的卡累利阿擲木遊戲 <i>kyykkä</i>。</p>
+        <p>器材全為木製、動作只有低手拋，<b>不需要跑跳與對抗</b>，所以能同時容納體能與動作經驗差異很大的學生。</p>
+      </div>
+      <div class="tbl t-2 sm rules">
+        <div class="h" style="grid-column:1/-1">正式比賽規則</div>
+        <div class="k">器材</div><div>12 根數字柱（標 1–12）＋ <b>1 根投擲柱</b></div>
+        <div class="k">投擲</div><div>站投擲線後，<u>低手拋出、不得過肩</u></div>
+        <div class="k">擊倒 1 根</div><div>得<b>該柱數字</b>（1～12 分）</div>
+        <div class="k">擊倒 2 根以上</div><div>得<b>倒下的根數</b>（不看數字）</div>
+        <div class="k">未完全倒下</div><div>0 分，<b>原地不動</b></div>
+        <div class="k">立柱</div><div>倒下的柱子在<b>落點原地立起</b>，不收回原陣型</div>
+        <div class="k">獲勝</div><div>總分<u>正好 50 分</u>者獲勝</div>
+        <div class="k">超過 50</div><div><u>退回 25 分</u>繼續累計</div>
+        <div class="k">連續 0 分</div><div>連續三球 0 分即遭淘汰</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 03 計分反轉 ===== -->
+<section class="slide">
+  <span class="num">04 / 15</span>
+  <p class="eyebrow">計分規則</p>
+  <h2>打倒幾根，<strong>不等於得幾分</strong></h2>
+  <p class="sub">全課的教學問題就藏在這裡：<b>「倒幾根」與「得幾分」不一定相同</b>。</p>
+  <div class="duo">
+    <div class="box">
+      <h4>橫掃 · 倒 5 根</h4>
+      <div class="stage mini d1" style="--T:4s">
+        <i class="mpin lie hit" style="left:26%;top:56%">1</i><i class="mpin lie hit" style="left:40%;top:48%">2</i>
+        <i class="mpin lie hit" style="left:54%;top:60%">3</i><i class="mpin lie hit" style="left:68%;top:50%">10</i>
+        <i class="mpin lie hit" style="left:42%;top:72%">4</i>
+        <i class="mpin" style="left:78%;top:34%">12</i><i class="mpin" style="left:60%;top:30%">7</i>
+        <i class="sstick"></i><span class="pop co">得 5 分</span>
+      </div>
+      <p class="cap">擊倒 2 根以上 → 得分是<b>倒下的根數</b>。倒得多，反而只有 5 分。</p>
+    </div>
+    <div class="neq">≠</div>
+    <div class="box">
+      <h4>瞄單根 · 只倒 12 號</h4>
+      <div class="stage mini d2" style="--T:4s">
+        <i class="mpin" style="left:26%;top:56%">1</i><i class="mpin" style="left:40%;top:48%">2</i>
+        <i class="mpin" style="left:54%;top:60%">3</i><i class="mpin" style="left:68%;top:50%">10</i>
+        <i class="mpin" style="left:42%;top:72%">4</i>
+        <i class="mpin lie hit" style="left:78%;top:34%">12</i><i class="mpin" style="left:60%;top:30%">7</i>
+        <i class="sstick"></i><span class="pop">得 12 分</span>
+      </div>
+      <p class="cap">只擊倒 1 根 → 得分是<b>那根柱子的數字</b>。同樣一球，兩倍多。</p>
+    </div>
+  </div>
+  <div style="margin-top:.75rem">
+    <div class="tbl t-133">
+      <div class="h">擊倒情況</div><div class="h">得分</div><div class="h">學生需要讀到的訊息</div>
+      <div class="k">只擊倒 1 根</div><div>該柱數字<small>如 12 號＝12 分</small></div><div>瞄準<b>單根大數字</b>，可能比掃倒很多根更划算。</div>
+      <div class="k">擊倒 2 根以上</div><div>倒下的根數<small>如倒 5 根＝5 分</small></div><div><b>倒得多不等於分數高。</b></div>
+      <div class="k">沒有完全倒下</div><div>0 分，原地立起</div><div>要共同使用<b>明確判定標準</b>。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 04 第一節引起動機 ===== -->
+<section class="slide">
+  <span class="num">05 / 15</span>
+  <p class="eyebrow">第一節・引起動機　<u>10 分鐘</u></p>
+  <h2>熱身</h2>
+  <div class="tri" style="margin-bottom:.6rem;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr)">
+    <div class="cell">
+      <h4>搬柱折返＋安全口令演練</h4>
+      <div class="stage mini w1" style="--T:5.5s">
+        <i class="szone"></i>
+        <i class="fg lime run mv"></i>
+        <i class="mpin lie lieC"></i>
+        <i class="mpin lie" style="left:88%;top:78%"></i>
+        <i class="mpin lie" style="left:72%;top:64%"></i>
+        <i class="mpin pinc"></i>
+        <i class="mpin home"></i>
+        <span class="slab li" style="left:17%;top:22%">本區</span>
+        <span class="slab" style="left:80%;top:36%">散放的柱子</span>
+      </div>
+      <p>先<b>空手走一次</b>：兩位學生到線後模擬「準備投」，教師喊「停—確認」全體停在線後，聽到「可以撿」才進場抱 1 根柱回本區、退出後舉手。接著兩趟搬柱折返。</p>
+      <p style="color:var(--lime);border-top:1px dashed var(--line);padding-top:.4rem;margin-top:.45rem"><b>藏著的準備｜</b>把「誰能進場、何時回線後」變成身體習慣。</p>
+    </div>
+    <div class="cell hi">
+      <h4>三距離校準拋</h4>
+      <div class="stage mini w4" style="--T:9s;aspect-ratio:5/1.95">
+        <i class="dz z2"></i><i class="dz z3"></i><i class="dz z4"></i>
+        <i class="dl l2"></i><i class="dl l3"></i><i class="dl l4"></i>
+        <i class="fg throw"></i>
+        <i class="sstick"></i>
+        <span class="slab sk n2">2 m</span><span class="slab am n3">3 m</span><span class="slab sk n4">4 m</span>
+        <span class="pop co p1">長</span><span class="pop p2">剛好</span><span class="pop p3">剛好</span>
+      </div>
+      <p>每條投擲道標 <b>2 m、3 m、4 m</b> 三條線，線前後各留<b>一根投擲柱長</b>的有效落點區；以<u>第一次碰地的位置</u>判斷，滾動不算。</p>
+      <ul class="bul" style="margin:.45rem 0 0;font-size:.82rem">
+        <li>依序拋向 2 m、3 m、4 m 各一次，<b>不比遠</b>，比落點靠不靠近指定線。</li>
+        <li>每次拋完依「<b>停—確認—可以撿</b>」統一收拾。</li>
+        <li>只做三種判讀：<b>短、剛好、長</b>。</li>
+        <li>下一次出手前說一句調整：「剛才 2 公尺太長，這次我要<u>把力量收一點</u>。」</li>
+      </ul>
+      <div class="lines3">
+        <div><b>2 m</b><span>感受「力量太多會過頭」，起步門檻低</span></div>
+        <div class="mid"><b>3 m</b><span>木棋的基本投擲距離，<u>主要校準點</u></span></div>
+        <div><b>4 m</b><span>不改成過肩甩投，增加力量、維持方向</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="embed">
+    <div class="emb am"><b>接到正式活動｜</b>「剛才你們調的是<b>距離</b>。等一下木棋除了要控制距離，還要決定：<u>我要打單根高分柱，還是打多根拿根數？</u>」</div>
+  </div>
+</section>
+
+<!-- ===== 05 安全口令 ===== -->
+<section class="slide">
+  <span class="num">06 / 15</span>
+  <p class="eyebrow">安全口令（熱身先熟悉、全課沿用）</p>
+  <div class="cmds" id="cmds">
+    <div class="cmd" data-i="0"><em>①</em><h4>準備投</h4></div>
+    <div class="cmd stop" data-i="1"><em>②</em><h4>停—確認</h4></div>
+    <div class="cmd go" data-i="2"><em>③</em><h4>可以撿</h4></div>
+    <div class="cmd" data-i="3"><em>④</em><h4>下一球</h4></div>
+  </div>
+  <div class="split narrow">
+    <div class="stage tall c5" id="c5stage">
+      <i class="shoriz tline"></i>
+      <i class="fg throw f1"></i><i class="fg lime throw f2"></i>
+      <i class="fg idle f3"></i><i class="fg lime idle d2 f4"></i>
+      <i class="fg amb idle teach"></i>
+      <i class="fg run runner"></i>
+      <i class="mpin mp1">7</i><i class="mpin mp2">4</i><i class="mpin mp3">11</i>
+      <span class="slab st" id="c5lab">① 準備投</span>
+      <span class="slab am" style="left:90%;top:76%">教師</span>
+      <span class="slab" style="left:12%;top:56%">投擲線</span>
+    </div>
+    <div class="tbl t-133 sm">
+      <div class="h">口令</div><div class="h">熱身時學生怎麼做</div><div class="h">發展活動如何沿用</div>
+      <div class="k">① 準備投</div><div>兩位指定學生走到各自投擲線後；<b>其他人與器材都在線後</b>。</div><div>只有指定拋擲者能出手，記分員與場務仍在等待區。</div>
+      <div class="k" style="color:#ffb4a0">② 停—確認</div><div>聽到口令<b>全體停住、看教師</b>；沒有人跨線撿柱。</div><div>教師確認兩根投擲柱都落地、兩隊都在線後。</div>
+      <div class="k li">③ 可以撿</div><div>只有指定學生進場抱柱／撿柱；回線後<b>面向教師舉手</b>。</div><div>只有場務沿自己投擲道進場：撿投擲柱、原地立倒柱。</div>
+      <div class="k">④ 下一球</div><div>回線後換下一位；<b>緊急長哨則全場停手</b>。</div><div>教師確認兩場復位完成，才放行下一組拋擲者。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 06 三職務輸送帶（幕 5 開場） ===== -->
+<section class="slide">
+  <span class="num">07 / 15</span>
+  <p class="eyebrow">三職務分配</p>
+  <div class="belt" style="--T:6s;max-width:1240px;margin-top:.9rem">
+    <i class="track"></i>
+    <span class="cyc">每一球，全隊往前移一位</span>
+    <i class="glow"></i>
+    <div class="node n1"><b>③ 場務</b><span>「可以撿」後進場<br>撿投擲柱・原地立倒柱</span></div>
+    <div class="node n2"><b>② 記分員</b><span>白板前判倒下情況<br>寫本球與累積分數</span></div>
+    <div class="node n3"><b>① 拋擲者</b><span>「準備投」後低手拋<br>出手前先說目標與理由</span></div>
+    <div class="node n4"><b>隊尾</b><span>觀察・準備建議<br>下一位補入場務</span></div>
+    <span class="arw a1">→</span><span class="arw a2">→</span><span class="arw a3">→</span>
+    <i class="fg lime idle"></i>
+  </div>
+  <div class="tbl t-323" style="margin-top:.7rem">
+    <div class="h">位置</div><div class="h">從哪裡來／要做什麼</div><div class="h">完成後到哪裡</div>
+    <div class="k sk">場務</div><div>從線後等待區出發；<b>只在「可以撿」後</b>沿自己的投擲道進場，撿投擲柱、原地立倒柱。</div><div>退出等待區、舉手 → 到白板前當<b>記分員</b>。</div>
+    <div class="k li">記分員</div><div>站在投擲線側後方的白板前，<b>不進入柱陣</b>；先判倒下情況，再寫本球與累積分數。</div><div>確認分數與下一球策略句 → 到投擲線後當<b>拋擲者</b>。</div>
+    <div class="k">拋擲者</div><div>從投擲線後出發；只在「準備投」後低手拋一次，<b>出手前先說目標與理由</b>。</div><div>出手後<b>退回隊尾，不進場撿柱</b>；由隊尾下一人補入場務。</div>
+  </div>
+</section>
+
+<!-- ===== 07 第一節發展活動 ===== -->
+<section class="slide">
+  <span class="num">08 / 15</span>
+  <p class="eyebrow">第一節・發展活動　<u>20 分鐘</u></p>
+  <div class="split wide">
+    <ul class="bul">
+      <li><b>只給四條規則就開打</b>：低手拋；倒 1 根算柱號、倒 2 根以上算根數；未完全倒下 0 分；<u>累積達 50 分即勝</u>。教師只說：「用剛才的口令開始。」</li>
+      <li><b>兩隊在兩個同方向柱陣同步打診斷賽</b>，每回合 5 球，<u>每人至少拋 1 次</u>。三職務依前一頁的輸送帶每球輪替，其餘人在隊尾觀察。</li>
+      <li><b>全班停下來看兩塊計分板</b>。教師只問：「同樣是一球，<u>倒 5 根和只倒 12 號，哪一隊多幾分？</u>」各隊寫下一句策略。</li>
+      <li><b>回到同一場遊戲繼續打、分數接續</b>。出手前先說目標與理由，記分員圈出本球是否支持判斷。教師不教握法，只問：「你想讓柱子往哪裡去？下一球<u>只改力量或方向其中一項</u>。」</li>
+      <li><b>本節不放「正好 50、超過退回 25」</b>，留到第二節；這節只要讀懂「一根的數字」與「多根的根數」不同。</li>
+    </ul>
+    <div>
+      <div class="stage tall c6" style="--T:6.5s">
+        <i class="svert divider"></i>
+        <i class="shoriz tlineA"></i><i class="shoriz tlineB"></i>
+        <i class="fg throw fA"></i><i class="fg lime idle qA1"></i>
+        <i class="fg lime throw fB"></i><i class="fg idle qB1"></i>
+        <i class="mpin a1">7</i><i class="mpin a2">9</i><i class="mpin a3">5</i><i class="mpin a4">3</i><i class="mpin a5">12</i>
+        <i class="mpin b1">7</i><i class="mpin b2">9</i><i class="mpin b3">5</i><i class="mpin b4">3</i><i class="mpin b5">1</i>
+        <i class="sstick stA"></i><i class="sstick stB"></i>
+        <i class="wboard wbA">A 隊<br>12</i><i class="wboard wbB">B 隊<br>7</i>
+        <span class="pop popA">只倒 12 號 → 12 分</span>
+        <span class="pop co popB">倒 2 根 → 2 分</span>
+        <span class="slab sa sk">A 場柱陣</span><span class="slab sb sk">B 場柱陣</span>
+      </div>
+      <div class="punch" style="margin-top:.55rem;font-size:.85rem">
+        <b>第一節學生必須理解的戰術：</b>不是「倒得越多越好」，而是<em>「我先讀計分規則，再選能讓我拿到所需分數的倒法」</em>。
+      </div>
+    </div>
+  </div>
+  <div class="embed">
+    <div class="emb li"><b>器材｜</b>兩副器材、兩個同方向柱陣以提高練習量，兩隊各自記分。只有一副時拆成兩組各 6 柱、目標改 25 分，計分結構不變。</div>
+  </div>
+</section>
+
+<!-- ===== 08 計分模板與策略句 ===== -->
+<section class="slide">
+  <span class="num">09 / 15</span>
+  <p class="eyebrow">計分模板</p>
+  <h2>記分員<strong>每球先勾</strong>「單根／多根／未全倒」，<strong>再寫分數</strong></h2>
+  <div class="split">
+    <div class="sheet">
+      <h4>第一節計分表　│　A 隊</h4>
+      <div class="row hd"><span>球次</span><span>拋擲者</span><span>倒下情況</span><span>本球</span><span>累積</span></div>
+      <div class="row"><span>1</span><span>＿＿</span><span class="bx"><s class="k">☑ 單根 3 號</s>　□ 多根＿根　□ 未全倒</span><span>3</span><span>3</span></div>
+      <div class="row"><span>2</span><span>＿＿</span><span class="bx">□ 單根＿號　<s class="k">☑ 多根 5 根</s>　□ 未全倒</span><span>5</span><span>8</span></div>
+      <div class="row"><span>3</span><span>＿＿</span><span class="bx">□ 單根＿號　□ 多根＿根　<s class="k">☑ 未全倒</s></span><span>0</span><span>8</span></div>
+      <div class="row on"><span>4</span><span>＿＿</span><span class="bx"><s class="k">☑ 單根 12 號</s>　□ 多根＿根　□ 未全倒</span><span>12</span><span>20</span></div>
+      <div class="row"><span>5</span><span>＿＿</span><span class="bx">□ 單根＿號　□ 多根＿根　□ 未全倒</span><span>＿</span><span>＿</span></div>
+    </div>
+    <div>
+      <div class="saybox">
+        <span class="tpl">策略句模板</span>
+        「我們現在＿＿分；下一球想打＿＿號／倒＿＿根，因為＿＿。」
+        <p class="eg" style="margin:.6rem 0 0;padding-top:.5rem;border-top:1px dashed var(--line)">
+          <b>例：</b>「我們現在 18 分；下一球想打單根 12 號，因為只倒一根就能拿 12 分，比倒很多根更划算。」
+        </p>
+      </div>
+      <div class="punch" style="margin-top:.6rem">
+        本節結束前，每位學生至少能說出——<br>
+        ① 只倒一根時，得的是<em>那根的柱號</em>；<br>
+        ② 倒兩根以上時，得的是<em>倒下根數</em>；<br>
+        ③ 出手前能用「<b>現在＿＿分，我想打＿＿，因為＿＿</b>」說明選擇。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 09 第一節綜合活動 ===== -->
+<section class="slide">
+  <span class="num">10 / 15</span>
+  <p class="eyebrow">第一節・綜合活動　<u>10 分鐘</u></p>
+  <h2>把策略<strong>變成可回看的證據</strong></h2>
+  <div class="split narrow">
+    <div class="stage tall c9" style="--T:6.5s">
+      <i class="fg lime idle hand"></i>
+      <div class="ticket">「<u class="a">打倒幾根</u>」和<br>「<u class="b">得幾分</u>」<br>有何不同？</div>
+      <i class="paperc card">策略卡</i>
+      <i class="folder">下一節</i>
+      <i class="fg stretch" style="left:66%;top:94%;width:34px"></i>
+      <i class="fg stretch d2" style="left:78%;top:94%;width:34px"></i>
+    </div>
+    <div>
+      <div class="tbl t-11 sm">
+        <div class="h">活動</div><div class="h">教師蒐集的證據</div>
+        <div>全班共同清點與歸位器材；<b>場務先完成柱子復位</b>，再全班收納。</div><div>是否遵守安全流程、能合作完成場地復原。</div>
+        <div>肩、腕、腰與下肢緩和；<b>拋擲側肩與前臂多停一個八拍</b>。</div><div>能說出拋擲後需要放鬆的部位。</div>
+        <div>只回答一題：「打倒幾根」和「得幾分」有何不同？先寫下來，再<b>兩人互說一次</b>；補記個人策略：目前分數／選哪根／為什麼。</div><div>能用計分規則解釋選柱；<b>每位學生留下個人策略證據</b>。</div>
+      </div>
+      <div class="punch" style="margin-top:.6rem">
+        <b>第二節橋接句：</b>「第一節你們發現了：大數字不一定是答案。下一節要處理更難的問題——<em>快到 50 分時，原本好打的柱子還能不能打？</em>」
+      </div>
+    </div>
+  </div>
+  <div class="embed">
+    <div class="emb li"><b>設計順序｜</b>先決定要蒐集什麼證據，再回頭確認活動真的能產生它。</div>
+  </div>
+</section>
+
+<!-- ===== 10 第二節引起動機 ===== -->
+<section class="slide">
+  <span class="num">11 / 15</span>
+  <p class="eyebrow">第二節・引起動機　<u>10 分鐘</u></p>
+  <h2>熱身</h2>
+  <p class="sub">學生有了需求，<b>再補上技能選擇</b>。</p>
+  <div class="split wide">
+    <ul class="bul">
+      <li><b>倒數立柱</b>：12 根柱子散放，全隊<u>立好、蹲下、舉手</u>才算完成。重演一次「停—確認—可以撿」，確認不因急著復位而越線。</li>
+      <li><b>握法試手</b>：示範橫握與直握，兩人互看並回報柱子是橫著轉還是直著飛。第一節<u>想瞄準單根卻打不到</u>，到這裡才真的需要用握法回應自己的策略。</li>
+      <li><b>〈湊到十〉</b>：每隊只擺 <u>1、2、3、4 號</u>四根柱，從 0 分開始，計分方式不變。<b>正好 10 完成，超過 10 回到 0 分重來</b>——用小數值保留「正好」的結構，逼學生<u>先看目前分數</u>再決定打哪根。</li>
+    </ul>
+    <div>
+      <div class="stage tall c10" style="--T:7s">
+        <i class="fg throw"></i>
+        <i class="mpin q1">1</i><i class="mpin q2">2</i><i class="mpin q3">3</i><i class="mpin q4">4</i>
+        <span class="board">
+          <i>7 分</i><i class="g">＋ 單根 3 號 → 10 ★</i><i>9 分</i><i>＋ 倒 2 根 → 11</i><i class="r">超過 → 0 分重來</i>
+        </span>
+        <span class="slab tag am">目前分數</span>
+      </div>
+      <div class="punch" style="margin-top:.55rem;font-size:.85rem">
+        到 <b>9 分</b>時，他不只要會投，更要知道<em>為什麼此時只能選 1 分的可能</em>。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 11 第二節發展活動 ===== -->
+<section class="slide">
+  <span class="num">12 / 15</span>
+  <p class="eyebrow">第二節・發展活動　<u>20 分鐘</u></p>
+  <h2>完整賽：<strong>把策略變成全隊選擇</strong></h2>
+  <p class="sub">戰術問題：<b>越接近 50 分，能安全選的柱子越少。</b></p>
+  <div class="split wide">
+    <ul class="bul">
+      <li><b>沿用第一節的兩隊，說明完整規則</b>：<u>正好 50 才贏、超過退回 25</u>；柱身任一面貼地才算倒。加上「正好」後，問題由「怎麼多得分」變成<u>「怎麼不超過」</u>。</li>
+      <li><b>一副柱陣、兩隊輪替打完整賽</b>：A 隊拋擲，B 隊記分兼場務，<u>下一球互換</u>。隊內沿用三職務輸送帶，每個人都要讀分、判分與復位。</li>
+      <li><b>每輪三球後，兩隊各開 30 秒會議</b>，只討論：「下一球打哪根？」會議是固定節奏，<u>不是落後者的標記</u>。</li>
+      <li><b>賽程中凍結分數，全班看一個例子</b>：「47 分還差 3 分，<u>12 根柱子裡有幾根不能打？</u>」再問：投擲順序會影響結果嗎？</li>
+      <li><b>逼近 50 時，可瞄小號單根，也可能故意橫掃</b>取 2 或 3 分——策略必須依目前分數改變。</li>
+    </ul>
+    <div>
+      <div class="stack" style="gap:.55rem">
+        <div class="wheel" id="wheel">
+          <span class="swp">每球互換</span>
+          <div class="hub">一副柱陣<br>兩隊輪替</div>
+          <div class="tm tA" data-t="A"><b>A 隊</b><span>拋擲</span></div>
+          <div class="tm tB" data-t="B"><b>B 隊</b><span>記分＋場務</span></div>
+        </div>
+        <div class="stage c11" style="--T:6s;aspect-ratio:5/2.5">
+          <i class="shoriz tline"></i>
+          <i class="fg amb throw fA"></i>
+          <i class="mpin no" style="left:34%;top:38%">12</i><i class="mpin no" style="left:46%;top:30%">9</i>
+          <i class="mpin no" style="left:58%;top:40%">7</i><i class="mpin no" style="left:70%;top:32%">11</i>
+          <i class="mpin ok" style="left:52%;top:52%">3</i>
+          <i class="mbar"><i style="width:94%"></i></i>
+          <span class="slab d3 am">47／50　還差 3 分</span>
+          <span class="pop">只有 3 號能打</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="embed">
+    <div class="emb li"><b>公平｜</b>第一節自己隊記自己隊，為的是讀懂規則；第二節<b>由別隊記分</b>，練習接受判定。這是組織結構，不是只靠提醒「要誠實」。</div>
+    <div class="emb co"><b>時間到｜</b>還沒有人正好 50，以「<b>最接近 50 且未超過</b>」者勝，避免下課鐘響時爭執。</div>
+  </div>
+</section>
+
+<!-- ===== 12 第二節綜合活動 ===== -->
+<section class="slide">
+  <span class="num">13 / 15</span>
+  <p class="eyebrow">第二節・綜合活動 Enjoy　<u>10 分鐘</u></p>
+  <h2>把運動<strong>帶出課堂</strong></h2>
+  <p class="sub">結束完整賽後，不只反思輸贏，<b>當場練習開口邀請別人一起運動</b>。</p>
+  <div class="split narrow">
+    <div class="stage tall c12" style="--T:7s">
+      <i class="fg lime idle hand a"></i>
+      <i class="fg idle b"></i><i class="fg amb idle d2 c"></i>
+      <span class="bub b1">「我想邀請＿＿一起玩木棋」</span>
+      <span class="bub b2">「因為它＿＿」</span>
+      <span class="bub b3">我聽到的好處是……</span>
+      <span class="slab li" style="left:16%;top:24%">兩人一組・面對面</span>
+    </div>
+    <div>
+      <div class="tbl t-11 sm">
+        <div class="h">活動</div><div class="h">每位學生留下什麼</div>
+        <div>兩隊共同收器材；教師依清單清點數字柱與投擲柱。</div><div>安全完成與合作紀錄。</div>
+        <div><b>口頭邀請練習</b>：兩人面對面，各說一次「我想邀請<u>＿＿</u>一起玩木棋，因為它<u>＿＿</u>（一項身心益處）」；<b>換一位夥伴再說一次</b>。聽的人只回一句：「我聽到你說的好處是＿＿。」</div><div>能對著人說出<b>具體對象＋一項運動好處</b>；由夥伴複述確認說得清楚。</div>
+        <div>肩、腕、下肢緩和後圍圈，<b>每隊推一人向全班說一次</b>邀請；並回答：「今天我在什麼分數時改變策略？」</div><div>能以具體情境反思決策，並<b>連結終身運動</b>。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 13 學習目標與評量 ===== -->
+<section class="slide">
+  <span class="num">14 / 15</span>
+  <p class="eyebrow">學習目標與評量</p>
+  <div class="tbl t-233">
+    <div class="h">學習目標</div><div class="h">蒐證方式</div><div class="h">蒐集時機</div>
+    <div class="k">說明計分與獲勝條件，據以選目標<small>1c-Ⅲ-1、Bc-Ⅲ-2</small></div>
+    <div><b>個人策略</b>：目前分數／選柱／理由。</div><div>第一節 36′–40′，第二節策略會議。</div>
+    <div class="k">以低手拋控制方向與距離<small>3c-Ⅲ-1、Cd-Ⅲ-1</small></div>
+    <div><b>投擲卡</b>：目標、落點、下一次只改哪一項。</div><div>兩節練習與正式賽。</div>
+    <div class="k">正向處理隊友失誤與計分爭議<small>2c-Ⅲ-2</small></div>
+    <div><b>同儕回饋卡</b>：「我觀察到……；我建議……」；教師名冊勾選。</div><div>第二節職務輪替與爭議處理。</div>
+    <div class="k">說明運動好處並邀請他人<small>4d-Ⅲ-3</small></div>
+    <div><b>運動好友圈邀請卡</b>：邀請語＋一項身心益處。</div><div>第二節 32′–37′。</div>
+  </div>
+  <div class="evs" style="margin-top:.7rem">
+    <div class="ev"><b>投擲卡</b>目標／落點／下一次只改一項</div>
+    <div class="ev"><b>策略卡</b>目前分數／選哪根／為什麼</div>
+    <div class="ev"><b>同儕回饋卡</b>我觀察到……我建議……</div>
+    <div class="ev"><b>邀請卡</b>邀請語＋一項身心益處</div>
+  </div>
+  <div class="embed">
+    <div class="emb am"><b>教師快速觀察｜</b>以名冊勾選三件事：<b>低手拋</b>、<b>在線後安全等待</b>、<b>能說出目標與理由</b>；與學生卡片互相對照。</div>
+  </div>
+</section>
+
+<!-- ===== 14 出處 ===== -->
+<section class="slide">
+  <span class="num">15 / 15</span>
+  <p class="eyebrow">主要出處</p>
+  <h2>資料來源</h2>
+  <ul class="refs">
+    <li>南一書局（2025）。《國小健康與體育 五下》第五單元〈投其所好〉；<b>教師手冊 pp.94–105、學生課本 pp.80–83</b>。</li>
+    <li>教育部（2018）。《十二年國教課程綱要——健康與體育領域》。</li>
+    <li>Bunker, D., &amp; Thorpe, R. (1982). A model for the teaching of games in secondary schools. <i>Bulletin of Physical Education</i>, 18(1), 5–8.</li>
+    <li>Johnson, D. W., &amp; Johnson, R. T. (1999). <i>Learning Together and Alone</i>；Wiggins, G., &amp; McTighe, J. (2005). <i>Understanding by Design</i>。</li>
+  </ul>
+  <p class="note">教學設計者：Ｆ114045 賴奕芸　│　木棋 Mölkky 大挑戰・兩節課整合版</p>
+</section>
+
+</main>
+
+<nav class="controls">
+  <button id="prev" aria-label="上一頁" type="button">←</button>
+  <span class="count" id="count">1 / 15</span>
+  <button id="next" aria-label="下一頁" type="button">→</button>
+</nav>
+
+<script>
+/* ===== 3D 可愛火柴人 ===== */
+const FIG=`<svg viewBox="0 0 60 84" aria-hidden="true">
+<ellipse class="fsh" cx="30" cy="80" rx="13" ry="3.2"/>
+<g class="gLegL" transform="translate(26,53)"><rect class="lb" x="-3.2" y="0" width="6.4" height="24" rx="3.2"/></g>
+<g class="gLegR" transform="translate(34,53)"><rect class="lb" x="-3.2" y="0" width="6.4" height="24" rx="3.2"/></g>
+<rect class="torso" x="20.5" y="28" width="19" height="28" rx="9.5"/>
+<g class="gArmL" transform="translate(23,34)"><rect class="lb" x="-2.8" y="0" width="5.6" height="18" rx="2.8"/></g>
+<g class="gArmR" transform="translate(37,34)"><rect class="lb" x="-2.8" y="0" width="5.6" height="18" rx="2.8"/></g>
+<g class="gHead"><circle class="hd" cx="30" cy="15" r="12.5"/>
+<circle cx="26" cy="14" r="1.8" fill="#241a10"/><circle cx="34" cy="14" r="1.8" fill="#241a10"/>
+<circle cx="26.7" cy="13.3" r=".6" fill="#fff"/><circle cx="34.7" cy="13.3" r=".6" fill="#fff"/>
+<path d="M26 19.5q4 3.4 8 0" fill="none" stroke="#241a10" stroke-width="1.5" stroke-linecap="round"/>
+<circle class="blush" cx="21.5" cy="18" r="2.1"/><circle class="blush" cx="38.5" cy="18" r="2.1"/></g>
+</svg>`;
+document.querySelectorAll('.fg').forEach(el=>el.innerHTML=FIG);
+
+/* ===== 導覽 ===== */
+const slides=[...document.querySelectorAll('.slide')];
+const count=document.getElementById('count');
+const bar=document.getElementById('bar');
+let idx=0;
+function show(n){
+  idx=(n+slides.length)%slides.length;
+  slides.forEach((s,i)=>s.classList.toggle('active',i===idx));
+  count.textContent=`${idx+1} / ${slides.length}`;
+  bar.style.width=((idx+1)/slides.length*100)+'%';
+  document.title=`木棋 Mölkky 大挑戰｜${idx+1}/${slides.length}`;
+}
+document.getElementById('prev').onclick=()=>show(idx-1);
+document.getElementById('next').onclick=()=>show(idx+1);
+document.addEventListener('keydown',e=>{
+  if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();show(idx+1)}
+  if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(idx-1)}
+  if(e.key==='Home')show(0);
+  if(e.key==='End')show(slides.length-1);
+});
+
+/* ===== 第 5 幕：安全口令四令循環 ===== */
+(function(){
+  const cards=[...document.querySelectorAll('#cmds .cmd')];
+  const lab=document.getElementById('c5lab');
+  const st=document.getElementById('c5stage');
+  if(!cards.length) return;
+  const S=[
+    {t:'① 準備投',  cls:'st-ready'},
+    {t:'② 停—確認', cls:'st-stop'},
+    {t:'③ 可以撿',  cls:'st-pick'},
+    {t:'④ 下一球',  cls:'st-next'}
+  ];
+  const f1=st.querySelector('.f1'), f2=st.querySelector('.f2');
+  const run=st.querySelector('.runner');
+  const pins=[...st.querySelectorAll('.mpin')];
+  let k=0;
+  function step(){
+    const s=S[k];
+    cards.forEach((c,i)=>c.classList.toggle('on',i===k));
+    lab.textContent=s.t;
+    lab.className='slab st '+(k===1?'co':k===2?'li':'am');
+    /* 拋擲者：只有 ①② 舉手臂 */
+    [f1,f2].forEach(f=>f.classList.toggle('throw',k===0));
+    /* 場務：只有 ③ 進場 */
+    run.style.transition='left .7s cubic-bezier(.4,0,.2,1), top .7s';
+    if(k===2){ run.style.left='78%'; run.style.top='48%'; run.classList.add('run'); }
+    else if(k===3){ run.style.left='70%'; run.style.top='88%'; run.classList.add('run'); }
+    else { run.style.left='70%'; run.style.top='88%'; run.classList.remove('run'); }
+    /* 柱子：③ 之後立起 */
+    pins.forEach((p,i)=>p.classList.toggle('lie', k<2 && i===0));
+    k=(k+1)%4;
+  }
+  step(); setInterval(step,1900);
+})();
+
+/* ===== 第 11 幕：兩隊職務互換 ===== */
+(function(){
+  const w=document.getElementById('wheel');
+  if(!w) return;
+  const tms=[...w.querySelectorAll('.tm')];
+  const ROLE=[
+    {n:'拋擲',c:'thr'},{n:'記分＋場務',c:'sco'}
+  ];
+  let off=0;
+  function turn(){
+    tms.forEach((t,i)=>{
+      const r=ROLE[(i+off)%2];
+      t.className='tm t'+t.dataset.t+' '+r.c;
+      t.querySelector('span').textContent=r.n;
+    });
+    off=(off+1)%2;   /* 每球互換：拋擲 ↔ 記分＋場務 */
+  }
+  turn(); setInterval(turn,2100);
+})();
+
+show(0);
+</script>
+</body>
+</html>
