@@ -351,7 +351,7 @@ h2 em{font-style:normal;color:var(--lime)}
 .d2 .pop{left:76%;top:16%}
 
 /* ---- S5 安全口令卡 ---- */
-.cmds{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;max-width:1240px;margin:.9rem 0 .55rem}
+.cmds{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;max-width:1240px;margin:.9rem 0 .55rem}
 .cmd{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:.55rem .7rem;
   transition:.35s;position:relative}
 .cmd em{font-style:normal;font-size:1.5rem;font-weight:900;line-height:1;color:var(--soft)}
@@ -731,7 +731,7 @@ h2 em{font-style:normal;color:var(--lime)}
         <span class="slab li" style="left:17%;top:22%">本區</span>
         <span class="slab" style="left:80%;top:36%">散放的柱子</span>
       </div>
-      <p>先<b>空手走一次</b>：兩位學生到線後模擬「準備投」，教師喊「停—確認」全體停在線後，聽到「可以撿」才進場抱 1 根柱回本區、退出後舉手。接著兩趟搬柱折返。</p>
+      <p>先<b>空手走一次</b>：教師喊「準備」時兩位學生到線後、其他人退到線外，喊「投」才模擬出手；聽到「<b>可以撿</b>」才進場抱 1 根柱回本區、退出後舉手；喊「<b>下一投</b>」換下一位。接著兩趟搬柱折返。</p>
       <p style="color:var(--lime);border-top:1px dashed var(--line);padding-top:.4rem;margin-top:.45rem"><b>藏著的準備｜</b>把「誰能進場、何時回線後」變成身體習慣。</p>
     </div>
     <div class="cell hi">
@@ -747,7 +747,7 @@ h2 em{font-style:normal;color:var(--lime)}
       <p>每條投擲道標 <b>2 m、3 m、4 m</b> 三條線，線前後各留<b>一根投擲柱長</b>的有效落點區；以<u>第一次碰地的位置</u>判斷，滾動不算。</p>
       <ul class="bul" style="margin:.45rem 0 0;font-size:.82rem">
         <li>依序拋向 2 m、3 m、4 m 各一次，<b>不比遠</b>，比落點靠不靠近指定線。</li>
-        <li>每次拋完依「<b>停—確認—可以撿</b>」統一收拾。</li>
+        <li>每次拋完等教師喊「<b>可以撿</b>」才統一收拾。</li>
         <li>只做三種判讀：<b>短、剛好、長</b>。</li>
         <li>下一次出手前說一句調整：「剛才 2 公尺太長，這次我要<u>把力量收一點</u>。」</li>
       </ul>
@@ -768,10 +768,9 @@ h2 em{font-style:normal;color:var(--lime)}
   <span class="num">06 / 15</span>
   <p class="eyebrow">安全口令（熱身先熟悉、全課沿用）</p>
   <div class="cmds" id="cmds">
-    <div class="cmd" data-i="0"><em>①</em><h4>準備投</h4></div>
-    <div class="cmd stop" data-i="1"><em>②</em><h4>停—確認</h4></div>
-    <div class="cmd go" data-i="2"><em>③</em><h4>可以撿</h4></div>
-    <div class="cmd" data-i="3"><em>④</em><h4>下一球</h4></div>
+    <div class="cmd" data-i="0"><em>①</em><h4>準備-投</h4></div>
+    <div class="cmd go" data-i="1"><em>②</em><h4>可以撿</h4></div>
+    <div class="cmd" data-i="2"><em>③</em><h4>下一投</h4></div>
   </div>
   <div class="split narrow">
     <div class="stage tall c5" id="c5stage">
@@ -781,16 +780,15 @@ h2 em{font-style:normal;color:var(--lime)}
       <i class="fg amb idle teach"></i>
       <i class="fg run runner"></i>
       <i class="mpin mp1">7</i><i class="mpin mp2">4</i><i class="mpin mp3">11</i>
-      <span class="slab st" id="c5lab">① 準備投</span>
+      <span class="slab st" id="c5lab">① 準備-投</span>
       <span class="slab am" style="left:90%;top:76%">教師</span>
       <span class="slab" style="left:12%;top:56%">投擲線</span>
     </div>
     <div class="tbl t-133 sm">
       <div class="h">口令</div><div class="h">熱身時學生怎麼做</div><div class="h">發展活動如何沿用</div>
-      <div class="k">① 準備投</div><div>兩位指定學生走到各自投擲線後；<b>其他人與器材都在線後</b>。</div><div>只有指定拋擲者能出手，記分員與場務仍在等待區。</div>
-      <div class="k" style="color:#ffb4a0">② 停—確認</div><div>聽到口令<b>全體停住、看教師</b>；沒有人跨線撿柱。</div><div>教師確認兩根投擲柱都落地、兩隊都在線後。</div>
-      <div class="k li">③ 可以撿</div><div>只有指定學生進場抱柱／撿柱；回線後<b>面向教師舉手</b>。</div><div>只有場務沿自己投擲道進場：撿投擲柱、原地立倒柱。</div>
-      <div class="k">④ 下一球</div><div>回線後換下一位；<b>緊急長哨則全場停手</b>。</div><div>教師確認兩場復位完成，才放行下一組拋擲者。</div>
+      <div class="k">① 準備-投</div><div>先喊「準備」，兩位指定學生走到各自投擲線後、<b>其他人與器材都在線後</b>；確認無人在場內才喊「投」。</div><div>只有指定拋擲者能出手，記分員與場務仍在等待區。</div>
+      <div class="k li">② 可以撿</div><div>投擲柱<b>完全停下、教師確認安全後</b>才喊；只有指定學生進場抱柱／撿柱，回線後<b>面向教師舉手</b>。</div><div>只有場務沿自己投擲道進場：撿投擲柱、原地立倒柱。</div>
+      <div class="k">③ 下一投</div><div>全員回到線後才喊，換下一位；<b>緊急長哨則全場停手</b>。</div><div>教師確認兩場復位完成，才放行下一組拋擲者。</div>
     </div>
   </div>
 </section>
@@ -805,7 +803,7 @@ h2 em{font-style:normal;color:var(--lime)}
     <i class="glow"></i>
     <div class="node n1"><b>③ 場務</b><span>「可以撿」後進場<br>撿投擲柱・原地立倒柱</span></div>
     <div class="node n2"><b>② 記分員</b><span>白板前判倒下情況<br>寫本球與累積分數</span></div>
-    <div class="node n3"><b>① 拋擲者</b><span>「準備投」後低手拋<br>出手前先說目標與理由</span></div>
+    <div class="node n3"><b>① 拋擲者</b><span>聽「準備-投」低手拋<br>出手前先說目標與理由</span></div>
     <div class="node n4"><b>隊尾</b><span>觀察・準備建議<br>下一位補入場務</span></div>
     <span class="arw a1">→</span><span class="arw a2">→</span><span class="arw a3">→</span>
     <i class="fg lime idle"></i>
@@ -814,7 +812,7 @@ h2 em{font-style:normal;color:var(--lime)}
     <div class="h">位置</div><div class="h">從哪裡來／要做什麼</div><div class="h">完成後到哪裡</div>
     <div class="k sk">場務</div><div>從線後等待區出發；<b>只在「可以撿」後</b>沿自己的投擲道進場，撿投擲柱、原地立倒柱。</div><div>退出等待區、舉手 → 到白板前當<b>記分員</b>。</div>
     <div class="k li">記分員</div><div>站在投擲線側後方的白板前，<b>不進入柱陣</b>；先判倒下情況，再寫本球與累積分數。</div><div>確認分數與下一球策略句 → 到投擲線後當<b>拋擲者</b>。</div>
-    <div class="k">拋擲者</div><div>從投擲線後出發；只在「準備投」後低手拋一次，<b>出手前先說目標與理由</b>。</div><div>出手後<b>退回隊尾，不進場撿柱</b>；由隊尾下一人補入場務。</div>
+    <div class="k">拋擲者</div><div>從投擲線後出發；聽到「<b>投</b>」才低手拋一次，<b>出手前先說目標與理由</b>。</div><div>出手後<b>退回隊尾，不進場撿柱</b>；由隊尾下一人補入場務。</div>
   </div>
 </section>
 
@@ -923,7 +921,7 @@ h2 em{font-style:normal;color:var(--lime)}
   <p class="sub">學生有了需求，<b>再補上技能選擇</b>。</p>
   <div class="split wide">
     <ul class="bul">
-      <li><b>倒數立柱</b>：12 根柱子散放，全隊<u>立好、蹲下、舉手</u>才算完成。重演一次「停—確認—可以撿」，確認不因急著復位而越線。</li>
+      <li><b>倒數立柱</b>：12 根柱子散放，全隊<u>立好、蹲下、舉手</u>才算完成。重演一次「準備-投／可以撿／下一投」，確認不因急著復位而越線。</li>
       <li><b>握法試手</b>：示範橫握與直握，兩人互看並回報柱子是橫著轉還是直著飛。第一節<u>想瞄準單根卻打不到</u>，到這裡才真的需要用握法回應自己的策略。</li>
       <li><b>〈湊到十〉</b>：每隊只擺 <u>1、2、3、4 號</u>四根柱，從 0 分開始，計分方式不變。<b>正好 10 完成，超過 10 回到 0 分重來</b>——用小數值保留「正好」的結構，逼學生<u>先看目前分數</u>再決定打哪根。</li>
     </ul>
@@ -1096,17 +1094,16 @@ document.addEventListener('keydown',e=>{
   if(e.key==='End')show(slides.length-1);
 });
 
-/* ===== 第 5 幕：安全口令四令循環 ===== */
+/* ===== 安全口令三令循環 ===== */
 (function(){
   const cards=[...document.querySelectorAll('#cmds .cmd')];
   const lab=document.getElementById('c5lab');
   const st=document.getElementById('c5stage');
   if(!cards.length) return;
   const S=[
-    {t:'① 準備投',  cls:'st-ready'},
-    {t:'② 停—確認', cls:'st-stop'},
-    {t:'③ 可以撿',  cls:'st-pick'},
-    {t:'④ 下一球',  cls:'st-next'}
+    {t:'① 準備-投', cls:'st-ready'},
+    {t:'② 可以撿',  cls:'st-pick'},
+    {t:'③ 下一投',  cls:'st-next'}
   ];
   const f1=st.querySelector('.f1'), f2=st.querySelector('.f2');
   const run=st.querySelector('.runner');
@@ -1116,17 +1113,16 @@ document.addEventListener('keydown',e=>{
     const s=S[k];
     cards.forEach((c,i)=>c.classList.toggle('on',i===k));
     lab.textContent=s.t;
-    lab.className='slab st '+(k===1?'co':k===2?'li':'am');
-    /* 拋擲者：只有 ①② 舉手臂 */
+    lab.className='slab st '+(k===1?'li':'am');
+    /* 拋擲者：只有 ① 舉手臂 */
     [f1,f2].forEach(f=>f.classList.toggle('throw',k===0));
-    /* 場務：只有 ③ 進場 */
+    /* 場務：只有 ② 進場 */
     run.style.transition='left .7s cubic-bezier(.4,0,.2,1), top .7s';
-    if(k===2){ run.style.left='78%'; run.style.top='48%'; run.classList.add('run'); }
-    else if(k===3){ run.style.left='70%'; run.style.top='88%'; run.classList.add('run'); }
-    else { run.style.left='70%'; run.style.top='88%'; run.classList.remove('run'); }
-    /* 柱子：③ 之後立起 */
-    pins.forEach((p,i)=>p.classList.toggle('lie', k<2 && i===0));
-    k=(k+1)%4;
+    if(k===1){ run.style.left='78%'; run.style.top='48%'; run.classList.add('run'); }
+    else { run.style.left='70%'; run.style.top='88%'; run.classList.toggle('run',k===2); }
+    /* 柱子：② 之後立起 */
+    pins.forEach((p,i)=>p.classList.toggle('lie', k<1 && i===0));
+    k=(k+1)%3;
   }
   step(); setInterval(step,1900);
 })();
