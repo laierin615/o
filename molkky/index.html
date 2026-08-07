@@ -248,34 +248,68 @@ h2 em{font-style:normal;color:var(--lime)}
 @keyframes sA{0%{opacity:1}58%{opacity:0}100%{opacity:0}}
 @keyframes sB{0%{opacity:0}58%{opacity:1}100%{opacity:1}}
 
-/* ---- 第一節熱身三回合（S4） ---- */
-.w1 .szone{left:4%;width:26%;top:46%;height:46%}
-.w1 .mv{left:20%;top:92%;animation:w1x var(--T) ease-in-out infinite}
-@keyframes w1x{0%,4%{left:20%}42%,50%{left:78%}92%,100%{left:20%}}
+/* ---- 搬柱折返＋安全口令演練（S4） ---- */
+.w1 .szone{left:3%;width:21%;top:38%;height:54%}
+.w1 .tline{left:70%;top:10%;bottom:6%}
+/* 右列：投擲者＋等待者 */
+.w1 .th{left:78%;top:74%}
+.w1 .q1{left:88%;top:76%} .w1 .q2{left:88%;top:92%}
+.w1 .lbl1{left:79%;top:24%;animation:w1s1 var(--T) step-end infinite}
+.w1 .lbl2{left:44%;top:16%;animation:w1s2 var(--T) step-end infinite}
+@keyframes w1s1{0%{opacity:1}28%{opacity:0}100%{opacity:0}}
+@keyframes w1s2{0%{opacity:0}30%{opacity:1}84%{opacity:0}100%{opacity:0}}
+/* 投擲柱飛出 */
+.w1 .fly{animation:w1fly var(--T) linear infinite}
+@keyframes w1fly{0%,8%{left:76%;top:76%;transform:translate(-50%,-50%) rotate(-22deg)}
+ 14%{left:66%;top:44%}20%{left:56%;top:38%}
+ 26%,100%{left:47%;top:86%;transform:translate(-50%,-50%) rotate(74deg)}}
+/* 場務：左列，聽到「可以撿」才進場 */
+.w1 .mv{left:13%;top:94%;animation:w1x var(--T) ease-in-out infinite}
+@keyframes w1x{0%,30%{left:13%}44%,56%{left:44%}72%,100%{left:13%}}
 .w1 .mv svg{animation:w1f var(--T) step-end infinite}
-@keyframes w1f{0%{transform:scaleX(1)}46%{transform:scaleX(-1)}96%,100%{transform:scaleX(1)}}
-.w1 .lieC{left:80%;top:90%;animation:w1take var(--T) step-end infinite}
-@keyframes w1take{0%{opacity:1}45%{opacity:0}100%{opacity:0}}
-.w1 .pinc{top:66%;z-index:7;animation:w1carry var(--T) ease-in-out infinite}
-@keyframes w1carry{0%,44%{opacity:0;left:74%}47%{opacity:1;left:73%}90%{opacity:1;left:18%}93%,100%{opacity:0;left:18%}}
-.w1 .home{left:12%;top:90%;animation:w1home var(--T) step-end infinite}
-@keyframes w1home{0%{opacity:0}93%{opacity:1}100%{opacity:1}}
+@keyframes w1f{0%{transform:scaleX(1)}56%{transform:scaleX(-1)}100%{transform:scaleX(-1)}}
+/* 被抱走的柱子 */
+.w1 .lieC{left:47%;top:88%;animation:w1take var(--T) step-end infinite}
+@keyframes w1take{0%{opacity:0}26%{opacity:1}52%{opacity:0}100%{opacity:0}}
+.w1 .pinc{top:70%;z-index:7;animation:w1carry var(--T) ease-in-out infinite}
+@keyframes w1carry{0%,50%{opacity:0;left:44%}54%{opacity:1;left:44%}70%{opacity:1;left:14%}74%,100%{opacity:0;left:14%}}
+.w1 .home{left:11%;top:88%;animation:w1home var(--T) step-end infinite}
+@keyframes w1home{0%{opacity:0}74%{opacity:1}100%{opacity:1}}
+.w1 .zlab{left:13%;top:22%} .w1 .flab{left:88%;top:44%}
 
-.w2 .fg{left:14%;top:94%}
-.w2 .roll{left:22%;top:88%;animation:w2roll var(--T) cubic-bezier(.3,.6,.4,1) infinite}
-@keyframes w2roll{0%,42%{left:22%;transform:translate(-50%,-58%) rotate(90deg)}
- 64%,100%{left:72%;transform:translate(-50%,-58%) rotate(450deg)}}
-.w2 .hoopz{left:72%;top:90%;animation:w2glow var(--T) infinite}
-@keyframes w2glow{0%,60%{box-shadow:none}68%,86%{box-shadow:0 0 0 5px rgba(200,221,106,.42)}96%,100%{box-shadow:none}}
-.w2 .pop{left:72%;top:58%}
+/* ---- 倒數立柱（S11-1） ---- */
+.c20 .mpin{animation:standK var(--T) infinite}
+@keyframes standK{0%,6%{transform:translate(-50%,-58%) rotate(90deg)}
+ 14%,92%{transform:translate(-50%,-100%) rotate(0)}97%,100%{transform:translate(-50%,-58%) rotate(90deg)}}
+.c20 .s1{left:18%;top:66%;animation-delay:calc(var(--T) * -.10)}
+.c20 .s2{left:32%;top:76%;animation-delay:calc(var(--T) * -.08)}
+.c20 .s3{left:46%;top:64%;animation-delay:calc(var(--T) * -.06)}
+.c20 .s4{left:60%;top:76%;animation-delay:calc(var(--T) * -.04)}
+.c20 .s5{left:74%;top:64%;animation-delay:calc(var(--T) * -.02)}
+.c20 .s6{left:88%;top:76%}
+.c20 .mover{top:96%;animation:c20run var(--T) ease-in-out infinite,c20mv var(--T) step-end infinite}
+@keyframes c20run{0%{left:18%}20%{left:40%}40%{left:64%}58%{left:84%}70%,100%{left:30%}}
+@keyframes c20mv{0%{opacity:1}72%{opacity:0}100%{opacity:0}}
+.c20 .done{left:30%;top:96%;animation:c20dn var(--T) step-end infinite}
+@keyframes c20dn{0%{opacity:0}74%{opacity:1}100%{opacity:1}}
+.c20 .mate{left:46%;top:96%}
+.c20 .cd{left:14%;top:18%}
+.c20 .fin{left:56%;top:38%;animation:c20fin var(--T) infinite}
+@keyframes c20fin{0%,70%{transform:translate(-50%,-50%) scale(0)}77%{transform:translate(-50%,-50%) scale(1.15)}
+ 82%,92%{transform:translate(-50%,-50%) scale(1)}97%,100%{transform:translate(-50%,-50%) scale(0)}}
 
-.w3 .fg{left:13%;top:94%}
-.w3 .svert{left:70%;top:34%;bottom:6%}
-.w3 .sstick{animation:w3fly var(--T) linear infinite}
-@keyframes w3fly{0%,42%{left:18%;top:80%;transform:translate(-50%,-50%) rotate(-24deg)}
- 50%{left:32%;top:44%}56%{left:46%;top:32%}62%{left:58%;top:46%}
- 68%,100%{left:67%;top:88%;transform:translate(-50%,-50%) rotate(78deg)}}
-.w3 .pop{left:67%;top:60%}
+/* ---- 握法試手（S11-2） ---- */
+.c21 .mid{left:50%;top:8%;bottom:8%;opacity:.5}
+.c21 .gL{left:12%;top:94%} .c21 .gR{left:62%;top:94%}
+.c21 .spinS{animation:c21spin var(--T) linear infinite}
+@keyframes c21spin{0%,10%{left:16%;top:82%;transform:translate(-50%,-50%) rotate(0)}
+ 30%{left:30%;top:46%;transform:translate(-50%,-50%) rotate(360deg)}
+ 50%,100%{left:42%;top:86%;transform:translate(-50%,-50%) rotate(810deg)}}
+.c21 .flatS{animation:c21flat var(--T) linear infinite}
+@keyframes c21flat{0%,52%{left:66%;top:82%;transform:translate(-50%,-50%) rotate(-16deg)}
+ 72%{left:80%;top:48%;transform:translate(-50%,-50%) rotate(-16deg)}
+ 92%,100%{left:92%;top:86%;transform:translate(-50%,-50%) rotate(-16deg)}}
+.c21 .lbL{left:25%;top:18%} .c21 .lbR{left:75%;top:18%}
 
 /* ---- 三距離校準拋（S4） ---- */
 .w4 .fg{left:10%;top:96%}
@@ -461,10 +495,10 @@ h2 em{font-style:normal;color:var(--lime)}
 @keyframes c10a{0%,26%{transform:translate(-50%,-100%) rotate(0)}32%,60%{transform:translate(-50%,-100%) rotate(84deg)}66%,100%{transform:translate(-50%,-100%) rotate(0)}}
 .c10 .q1,.c10 .q2{animation:c10b var(--T) infinite}
 @keyframes c10b{0%,66%{transform:translate(-50%,-100%) rotate(0)}72%,100%{transform:translate(-50%,-100%) rotate(84deg)}}
-.c10 .board{position:absolute;left:20%;top:26%;transform:translate(-50%,-50%);z-index:8}
-.c10 .board i{position:absolute;left:0;top:0;transform:translate(-50%,-50%);font-style:normal;opacity:0;
+.c10 .board{position:absolute;left:50%;top:22%;transform:translate(-50%,-50%);z-index:8}
+.c10 .board i{position:absolute;left:0;top:0;transform:translate(-50%,-50%);font-style:normal;opacity:0;max-width:92%;
   background:rgba(20,24,15,.9);border:2px solid var(--line);border-radius:10px;
-  padding:.24rem .7rem;font-size:1.05rem;font-weight:900;white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--cream)}
+  padding:.2rem .55rem;font-size:.86rem;font-weight:900;white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--cream)}
 .c10 .board i.g{border-color:var(--lime);color:var(--lime)}
 .c10 .board i.r{border-color:var(--coral);color:#ffb4a0}
 .c10 .board i:nth-child(1){animation:cb1 var(--T) step-end infinite}
@@ -720,16 +754,22 @@ h2 em{font-style:normal;color:var(--lime)}
   <div class="tri" style="margin-bottom:.6rem;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr)">
     <div class="cell">
       <h4>搬柱折返＋安全口令演練</h4>
-      <div class="stage mini w1" style="--T:5.5s">
+      <div class="stage mini w1" style="--T:9s">
         <i class="szone"></i>
+        <i class="svert tline"></i>
+        <i class="fg throw th"></i>
+        <i class="fg sm idle q1"></i><i class="fg sm idle d2 q2"></i>
         <i class="fg lime run mv"></i>
+        <i class="sstick fly"></i>
         <i class="mpin lie lieC"></i>
-        <i class="mpin lie" style="left:88%;top:78%"></i>
-        <i class="mpin lie" style="left:72%;top:64%"></i>
+        <i class="mpin lie" style="left:60%;top:80%"></i>
+        <i class="mpin lie" style="left:36%;top:70%"></i>
         <i class="mpin pinc"></i>
         <i class="mpin home"></i>
-        <span class="slab li" style="left:17%;top:22%">本區</span>
-        <span class="slab" style="left:80%;top:36%">散放的柱子</span>
+        <span class="slab li zlab">本區</span>
+        <span class="slab sk flab">等待區</span>
+        <span class="slab am lbl1">「準備-投」</span>
+        <span class="slab li lbl2">「可以撿」</span>
       </div>
       <p>先<b>空手走一次</b>：教師喊「準備」時兩位學生到線後、其他人退到線外，喊「投」才模擬出手；聽到「<b>可以撿</b>」才進場抱 1 根柱回本區、退出後舉手；喊「<b>下一投</b>」換下一位。接著兩趟搬柱折返。</p>
       <p style="color:var(--lime);border-top:1px dashed var(--line);padding-top:.4rem;margin-top:.45rem"><b>藏著的準備｜</b>把「誰能進場、何時回線後」變成身體習慣。</p>
@@ -919,14 +959,34 @@ h2 em{font-style:normal;color:var(--lime)}
   <p class="eyebrow">第二節・引起動機　<u>10 分鐘</u></p>
   <h2>熱身</h2>
   <p class="sub">學生有了需求，<b>再補上技能選擇</b>。</p>
-  <div class="split wide">
-    <ul class="bul">
-      <li><b>倒數立柱</b>：12 根柱子散放，全隊<u>立好、蹲下、舉手</u>才算完成。重演一次「準備-投／可以撿／下一投」，確認不因急著復位而越線。</li>
-      <li><b>握法試手</b>：示範橫握與直握，兩人互看並回報柱子是橫著轉還是直著飛。第一節<u>想瞄準單根卻打不到</u>，到這裡才真的需要用握法回應自己的策略。</li>
-      <li><b>〈湊到十〉</b>：每隊只擺 <u>1、2、3、4 號</u>四根柱，從 0 分開始，計分方式不變。<b>正好 10 完成，超過 10 回到 0 分重來</b>——用小數值保留「正好」的結構，逼學生<u>先看目前分數</u>再決定打哪根。</li>
-    </ul>
-    <div>
-      <div class="stage tall c10" style="--T:7s">
+  <div class="tri" style="margin-bottom:.6rem">
+    <div class="cell">
+      <h4>倒數立柱</h4>
+      <div class="stage mini c20" style="--T:8s">
+        <i class="mpin s1">7</i><i class="mpin s2">3</i><i class="mpin s3">11</i>
+        <i class="mpin s4">5</i><i class="mpin s5">9</i><i class="mpin s6">1</i>
+        <i class="fg lime run mover"></i>
+        <i class="fg lime hand done"></i>
+        <i class="fg sm idle d2 mate"></i>
+        <span class="slab am cd">30 秒</span>
+        <span class="pop fin">立好・蹲下・舉手</span>
+      </div>
+      <p>12 根柱子散放，全隊<u>立好、蹲下、舉手</u>才算完成。重演一次「準備-投／可以撿／下一投」，確認不因急著復位而越線。</p>
+    </div>
+    <div class="cell">
+      <h4>握法試手</h4>
+      <div class="stage mini c21" style="--T:6.4s">
+        <i class="svert mid"></i>
+        <i class="fg throw gL"></i><i class="fg lime throw gR"></i>
+        <i class="sstick spinS"></i><i class="sstick flatS"></i>
+        <span class="slab sk lbL">橫握 → 橫著轉</span>
+        <span class="slab li lbR">直握 → 直著飛</span>
+      </div>
+      <p>示範橫握與直握，兩人互看並回報柱子是<b>橫著轉還是直著飛</b>。第一節<u>想瞄準單根卻打不到</u>，到這裡才真的需要用握法回應自己的策略。</p>
+    </div>
+    <div class="cell hi">
+      <h4>〈湊到十〉</h4>
+      <div class="stage mini c10" style="--T:7s">
         <i class="fg throw"></i>
         <i class="mpin q1">1</i><i class="mpin q2">2</i><i class="mpin q3">3</i><i class="mpin q4">4</i>
         <span class="board">
@@ -934,11 +994,10 @@ h2 em{font-style:normal;color:var(--lime)}
         </span>
         <span class="slab tag am">目前分數</span>
       </div>
-      <div class="punch" style="margin-top:.55rem;font-size:.85rem">
-        到 <b>9 分</b>時，他不只要會投，更要知道<em>為什麼此時只能選 1 分的可能</em>。
-      </div>
+      <p>每隊只擺 <u>1、2、3、4 號</u>四根柱，從 0 分開始。<b>正好 10 完成，超過 10 回到 0 分重來</b>——逼學生<u>先看目前分數</u>再決定打哪根。</p>
     </div>
   </div>
+  <div class="punch">到 <b>9 分</b>時，他不只要會投，更要知道<em>為什麼此時只能選 1 分的可能</em>。</div>
 </section>
 
 <!-- ===== 11 第二節發展活動 ===== -->
