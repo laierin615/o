@@ -252,9 +252,9 @@ h2 em{font-style:normal;color:var(--lime)}
 .w1 .szone{left:3%;width:21%;top:38%;height:54%}
 .w1 .tline{left:70%;top:10%;bottom:6%}
 /* 右列：投擲者＋等待者 */
-.w1 .th{left:78%;top:74%}
-.w1 .q1{left:88%;top:76%} .w1 .q2{left:88%;top:92%}
-.w1 .lbl1{left:79%;top:24%;animation:w1s1 var(--T) step-end infinite}
+.w1 .th{left:76%;top:72%}
+.w1 .q1{left:91%;top:62%} .w1 .q2{left:91%;top:86%}
+.w1 .lbl1{left:76%;top:22%;animation:w1s1 var(--T) step-end infinite}
 .w1 .lbl2{left:44%;top:16%;animation:w1s2 var(--T) step-end infinite}
 @keyframes w1s1{0%{opacity:1}28%{opacity:0}100%{opacity:0}}
 @keyframes w1s2{0%{opacity:0}30%{opacity:1}84%{opacity:0}100%{opacity:0}}
@@ -263,19 +263,19 @@ h2 em{font-style:normal;color:var(--lime)}
 @keyframes w1fly{0%,8%{left:76%;top:76%;transform:translate(-50%,-50%) rotate(-22deg)}
  14%{left:66%;top:44%}20%{left:56%;top:38%}
  26%,100%{left:47%;top:86%;transform:translate(-50%,-50%) rotate(74deg)}}
-/* 場務：左列，聽到「可以撿」才進場 */
-.w1 .mv{left:13%;top:94%;animation:w1x var(--T) ease-in-out infinite}
-@keyframes w1x{0%,30%{left:13%}44%,56%{left:44%}72%,100%{left:13%}}
+/* 場務：也在右側等待區，聽到「可以撿」才進場，撿柱後折返本區再回等待區 */
+.w1 .mv{top:96%;animation:w1x var(--T) ease-in-out infinite}
+@keyframes w1x{0%,30%{left:78%}42%,50%{left:47%}66%,74%{left:14%}90%,100%{left:78%}}
 .w1 .mv svg{animation:w1f var(--T) step-end infinite}
-@keyframes w1f{0%{transform:scaleX(1)}56%{transform:scaleX(-1)}100%{transform:scaleX(-1)}}
+@keyframes w1f{0%{transform:scaleX(1)}74%{transform:scaleX(-1)}100%{transform:scaleX(-1)}}
 /* 被抱走的柱子 */
 .w1 .lieC{left:47%;top:88%;animation:w1take var(--T) step-end infinite}
-@keyframes w1take{0%{opacity:0}26%{opacity:1}52%{opacity:0}100%{opacity:0}}
-.w1 .pinc{top:70%;z-index:7;animation:w1carry var(--T) ease-in-out infinite}
-@keyframes w1carry{0%,50%{opacity:0;left:44%}54%{opacity:1;left:44%}70%{opacity:1;left:14%}74%,100%{opacity:0;left:14%}}
-.w1 .home{left:11%;top:88%;animation:w1home var(--T) step-end infinite}
-@keyframes w1home{0%{opacity:0}74%{opacity:1}100%{opacity:1}}
-.w1 .zlab{left:13%;top:22%} .w1 .flab{left:88%;top:44%}
+@keyframes w1take{0%{opacity:0}26%{opacity:1}48%{opacity:0}100%{opacity:0}}
+.w1 .pinc{top:72%;z-index:7;animation:w1carry var(--T) ease-in-out infinite}
+@keyframes w1carry{0%,48%{opacity:0;left:47%}52%{opacity:1;left:47%}66%{opacity:1;left:15%}72%,100%{opacity:0;left:15%}}
+.w1 .home{left:12%;top:88%;animation:w1home var(--T) step-end infinite}
+@keyframes w1home{0%{opacity:0}72%{opacity:1}100%{opacity:1}}
+.w1 .zlab{left:13%;top:22%} .w1 .flab{left:91%;top:38%}
 
 /* ---- 倒數立柱（S11-1） ---- */
 .c20 .mpin{animation:standK var(--T) infinite}
