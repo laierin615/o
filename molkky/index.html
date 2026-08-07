@@ -258,11 +258,8 @@ h2 em{font-style:normal;color:var(--lime)}
 .w1 .lbl2{left:44%;top:16%;animation:w1s2 var(--T) step-end infinite}
 @keyframes w1s1{0%{opacity:1}28%{opacity:0}100%{opacity:0}}
 @keyframes w1s2{0%{opacity:0}30%{opacity:1}84%{opacity:0}100%{opacity:0}}
-/* 投擲柱飛出 */
-.w1 .fly{animation:w1fly var(--T) linear infinite}
-@keyframes w1fly{0%,8%{left:76%;top:76%;transform:translate(-50%,-50%) rotate(-22deg)}
- 14%{left:66%;top:44%}20%{left:56%;top:38%}
- 26%,100%{left:47%;top:86%;transform:translate(-50%,-50%) rotate(74deg)}}
+/* 空手演練：只有投擲動作，不真的擲出投擲柱 */
+.w1 .th .gArmR rect{animation:throwArm calc(var(--T) * .3) ease-in-out infinite}
 /* 場務：也在右側等待區，聽到「可以撿」才進場，撿柱後折返本區再回等待區 */
 .w1 .mv{top:96%;animation:w1x var(--T) ease-in-out infinite}
 @keyframes w1x{0%,30%{left:78%}42%,50%{left:47%}66%,74%{left:14%}90%,100%{left:78%}}
@@ -270,7 +267,7 @@ h2 em{font-style:normal;color:var(--lime)}
 @keyframes w1f{0%{transform:scaleX(1)}74%{transform:scaleX(-1)}100%{transform:scaleX(-1)}}
 /* 被抱走的柱子 */
 .w1 .lieC{left:47%;top:88%;animation:w1take var(--T) step-end infinite}
-@keyframes w1take{0%{opacity:0}26%{opacity:1}48%{opacity:0}100%{opacity:0}}
+@keyframes w1take{0%{opacity:1}48%{opacity:0}92%{opacity:1}100%{opacity:1}}
 .w1 .pinc{top:72%;z-index:7;animation:w1carry var(--T) ease-in-out infinite}
 @keyframes w1carry{0%,48%{opacity:0;left:47%}52%{opacity:1;left:47%}66%{opacity:1;left:15%}72%,100%{opacity:0;left:15%}}
 .w1 .home{left:12%;top:88%;animation:w1home var(--T) step-end infinite}
@@ -760,15 +757,15 @@ h2 em{font-style:normal;color:var(--lime)}
         <i class="fg throw th"></i>
         <i class="fg sm idle q1"></i><i class="fg sm idle d2 q2"></i>
         <i class="fg lime run mv"></i>
-        <i class="sstick fly"></i>
         <i class="mpin lie lieC"></i>
         <i class="mpin lie" style="left:60%;top:80%"></i>
         <i class="mpin lie" style="left:36%;top:70%"></i>
+        <span class="slab sk" style="left:44%;top:56%">事先散放的柱子</span>
         <i class="mpin pinc"></i>
         <i class="mpin home"></i>
         <span class="slab li zlab">本區</span>
         <span class="slab sk flab">等待區</span>
-        <span class="slab am lbl1">「準備-投」</span>
+        <span class="slab am lbl1">「準備-投」<br>（空手模擬）</span>
         <span class="slab li lbl2">「可以撿」</span>
       </div>
       <p>先<b>空手走一次</b>：教師喊「準備」時兩位學生到線後、其他人退到線外，喊「投」才模擬出手；聽到「<b>可以撿</b>」才進場抱 1 根柱回本區、退出後舉手；喊「<b>下一投</b>」換下一位。接著兩趟搬柱折返。</p>
