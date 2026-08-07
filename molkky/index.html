@@ -274,24 +274,62 @@ h2 em{font-style:normal;color:var(--lime)}
 @keyframes w1home{0%{opacity:0}72%{opacity:1}100%{opacity:1}}
 .w1 .zlab{left:13%;top:22%} .w1 .flab{left:91%;top:38%}
 
-/* ---- 倒數立柱（S11-1） ---- */
-.c20 .mpin{animation:standK var(--T) infinite}
-@keyframes standK{0%,6%{transform:translate(-50%,-58%) rotate(90deg)}
- 14%,92%{transform:translate(-50%,-100%) rotate(0)}97%,100%{transform:translate(-50%,-58%) rotate(90deg)}}
-.c20 .s1{left:18%;top:66%;animation-delay:calc(var(--T) * -.10)}
-.c20 .s2{left:32%;top:76%;animation-delay:calc(var(--T) * -.08)}
-.c20 .s3{left:46%;top:64%;animation-delay:calc(var(--T) * -.06)}
-.c20 .s4{left:60%;top:76%;animation-delay:calc(var(--T) * -.04)}
-.c20 .s5{left:74%;top:64%;animation-delay:calc(var(--T) * -.02)}
-.c20 .s6{left:88%;top:76%}
-.c20 .mover{top:96%;animation:c20run var(--T) ease-in-out infinite,c20mv var(--T) step-end infinite}
-@keyframes c20run{0%{left:18%}20%{left:40%}40%{left:64%}58%{left:84%}70%,100%{left:30%}}
-@keyframes c20mv{0%{opacity:1}72%{opacity:0}100%{opacity:0}}
-.c20 .done{left:30%;top:96%;animation:c20dn var(--T) step-end infinite}
-@keyframes c20dn{0%{opacity:0}74%{opacity:1}100%{opacity:1}}
-.c20 .mate{left:46%;top:96%}
-.c20 .cd{left:14%;top:18%}
-.c20 .fin{left:56%;top:38%;animation:c20fin var(--T) infinite}
+/* ---- 倒數立柱：散放 → 接力折返 → 官方起始陣型（S11-1） ---- */
+.c20 .mpin{z-index:5}
+.c20 .p0{--sx:9%;--sy:36%;--fx:61%;--fy:30%;animation:pf0 var(--T) ease-in-out infinite}
+.c20 .p1{--sx:17%;--sy:62%;--fx:66%;--fy:30%;animation:pf1 var(--T) ease-in-out infinite}
+.c20 .p2{--sx:13%;--sy:86%;--fx:71%;--fy:30%;animation:pf2 var(--T) ease-in-out infinite}
+.c20 .p3{--sx:24%;--sy:44%;--fx:58.5%;--fy:44%;animation:pf3 var(--T) ease-in-out infinite}
+.c20 .p4{--sx:30%;--sy:74%;--fx:63.5%;--fy:44%;animation:pf4 var(--T) ease-in-out infinite}
+.c20 .p5{--sx:21%;--sy:26%;--fx:68.5%;--fy:44%;animation:pf5 var(--T) ease-in-out infinite}
+.c20 .p6{--sx:34%;--sy:90%;--fx:73.5%;--fy:44%;animation:pf6 var(--T) ease-in-out infinite}
+.c20 .p7{--sx:28%;--sy:58%;--fx:61%;--fy:58%;animation:pf7 var(--T) ease-in-out infinite}
+.c20 .p8{--sx:38%;--sy:34%;--fx:66%;--fy:58%;animation:pf8 var(--T) ease-in-out infinite}
+.c20 .p9{--sx:35%;--sy:66%;--fx:71%;--fy:58%;animation:pf9 var(--T) ease-in-out infinite}
+.c20 .p10{--sx:42%;--sy:84%;--fx:63.5%;--fy:72%;animation:pf10 var(--T) ease-in-out infinite}
+.c20 .p11{--sx:31%;--sy:40%;--fx:68.5%;--fy:72%;animation:pf11 var(--T) ease-in-out infinite}
+@keyframes pf0{0%,5.0%{left:var(--sx);top:var(--sy);transform:translate(-50%,-58%) rotate(90deg)}
+ 13.0%,90%{left:var(--fx);top:var(--fy);transform:translate(-50%,-100%) rotate(0)}
+ 96%,100%{left:var(--sx);top:var(--sy);transform:translate(-50%,-58%) rotate(90deg)}}
+@keyframes pf1{0%,9.2%{left:var(--sx);top:var(--sy);transform:translate(-50%,-58%) rotate(90deg)}
+ 17.2%,90%{left:var(--fx);top:var(--fy);transform:translate(-50%,-100%) rotate(0)}
+ 96%,100%{left:var(--sx);top:var(--sy);transform:translate(-50%,-58%) rotate(90deg)}}
+@keyframes pf2{0%,13.4%{left:var(--sx);top:var(--sy);transform:translate(-50%,-58%) rotate(90deg)}
+ 21.4%,90%{left:var(--fx);top:var(--fy);transform:translate(-50%,-100%) rotate(0)}
+ 96%,100%{left:var(--sx);top:var(--sy);transform:translate(-50%,-58%) rotate(90deg)}}
+@keyframes pf3{0%,17.6%{left:var(--sx);top:var(--sy);transform:translate(-50%,-58%) rotate(90deg)}
+ 25.6%,90%{left:var(--fx);top:var(--fy);transform:translate(-50%,-100%) rotate(0)}
+ 96%,100%{left:var(--sx);top:var(--sy);transform:translate(-50%,-58%) rotate(90deg)}}
+@keyframes pf4{0%,21.8%{left:var(--sx);top:var(--sy);transform:translate(-50%,-58%) rotate(90deg)}
+ 29.8%,90%{left:var(--fx);top:var(--fy);transform:translate(-50%,-100%) rotate(0)}
+ 96%,100%{left:var(--sx);top:var(--sy);transform:translate(-50%,-58%) rotate(90deg)}}
+@keyframes pf5{0%,26.0%{left:var(--sx);top:var(--sy);transform:translate(-50%,-58%) rotate(90deg)}
+ 34.0%,90%{left:var(--fx);top:var(--fy);transform:translate(-50%,-100%) rotate(0)}
+ 96%,100%{left:var(--sx);top:var(--sy);transform:translate(-50%,-58%) rotate(90deg)}}
+@keyframes pf6{0%,30.2%{left:var(--sx);top:var(--sy);transform:translate(-50%,-58%) rotate(90deg)}
+ 38.2%,90%{left:var(--fx);top:var(--fy);transform:translate(-50%,-100%) rotate(0)}
+ 96%,100%{left:var(--sx);top:var(--sy);transform:translate(-50%,-58%) rotate(90deg)}}
+@keyframes pf7{0%,34.4%{left:var(--sx);top:var(--sy);transform:translate(-50%,-58%) rotate(90deg)}
+ 42.4%,90%{left:var(--fx);top:var(--fy);transform:translate(-50%,-100%) rotate(0)}
+ 96%,100%{left:var(--sx);top:var(--sy);transform:translate(-50%,-58%) rotate(90deg)}}
+@keyframes pf8{0%,38.6%{left:var(--sx);top:var(--sy);transform:translate(-50%,-58%) rotate(90deg)}
+ 46.6%,90%{left:var(--fx);top:var(--fy);transform:translate(-50%,-100%) rotate(0)}
+ 96%,100%{left:var(--sx);top:var(--sy);transform:translate(-50%,-58%) rotate(90deg)}}
+@keyframes pf9{0%,42.8%{left:var(--sx);top:var(--sy);transform:translate(-50%,-58%) rotate(90deg)}
+ 50.8%,90%{left:var(--fx);top:var(--fy);transform:translate(-50%,-100%) rotate(0)}
+ 96%,100%{left:var(--sx);top:var(--sy);transform:translate(-50%,-58%) rotate(90deg)}}
+@keyframes pf10{0%,47.0%{left:var(--sx);top:var(--sy);transform:translate(-50%,-58%) rotate(90deg)}
+ 55.0%,90%{left:var(--fx);top:var(--fy);transform:translate(-50%,-100%) rotate(0)}
+ 96%,100%{left:var(--sx);top:var(--sy);transform:translate(-50%,-58%) rotate(90deg)}}
+@keyframes pf11{0%,51.2%{left:var(--sx);top:var(--sy);transform:translate(-50%,-58%) rotate(90deg)}
+ 59.2%,90%{left:var(--fx);top:var(--fy);transform:translate(-50%,-100%) rotate(0)}
+ 96%,100%{left:var(--sx);top:var(--sy);transform:translate(-50%,-58%) rotate(90deg)}}
+.c20 .rA{top:96%;animation:c20a var(--T) ease-in-out infinite}
+@keyframes c20a{0%,4%{left:12%}22%{left:60%}44%{left:12%}62%{left:60%}84%,100%{left:12%}}
+.c20 .rB{top:96%;animation:c20b var(--T) ease-in-out infinite}
+@keyframes c20b{0%,14%{left:58%}32%{left:14%}54%{left:58%}74%{left:14%}92%,100%{left:58%}}
+.c20 .sl{left:22%;top:16%} .c20 .fl{left:66%;top:12%}
+.c20 .fin{left:34%;top:52%;animation:c20fin var(--T) infinite}
 @keyframes c20fin{0%,70%{transform:translate(-50%,-50%) scale(0)}77%{transform:translate(-50%,-50%) scale(1.15)}
  82%,92%{transform:translate(-50%,-50%) scale(1)}97%,100%{transform:translate(-50%,-50%) scale(0)}}
 
@@ -959,16 +997,14 @@ h2 em{font-style:normal;color:var(--lime)}
   <div class="tri" style="margin-bottom:.6rem">
     <div class="cell">
       <h4>倒數立柱</h4>
-      <div class="stage mini c20" style="--T:8s">
-        <i class="mpin s1">7</i><i class="mpin s2">3</i><i class="mpin s3">11</i>
-        <i class="mpin s4">5</i><i class="mpin s5">9</i><i class="mpin s6">1</i>
-        <i class="fg lime run mover"></i>
-        <i class="fg lime hand done"></i>
-        <i class="fg sm idle d2 mate"></i>
-        <span class="slab am cd">30 秒</span>
-        <span class="pop fin">立好・蹲下・舉手</span>
+      <div class="stage mini c20" style="--T:11s">
+        <i class="mpin lie p0">7</i><i class="mpin lie p1">9</i><i class="mpin lie p2">8</i><i class="mpin lie p3">5</i><i class="mpin lie p4">11</i><i class="mpin lie p5">12</i><i class="mpin lie p6">6</i><i class="mpin lie p7">3</i><i class="mpin lie p8">10</i><i class="mpin lie p9">4</i><i class="mpin lie p10">1</i><i class="mpin lie p11">2</i>
+        <i class="fg lime run rA"></i><i class="fg run rB"></i>
+        <span class="slab sk sl">散放</span>
+        <span class="slab am fl">官方起始陣型</span>
+        <span class="pop fin">接力折返・全部立好</span>
       </div>
-      <p>12 根柱子散放，全隊<u>立好、蹲下、舉手</u>才算完成。重演一次「準備-投／可以撿／下一投」，確認不因急著復位而越線。</p>
+      <p>12 根柱子散放場中，全隊<b>接力折返</b>把柱子搬回、立好，<u>回復成官方起始陣型</u>才算完成。過程重演「準備-投／可以撿／下一投」，確認不因急著復位而越線。</p>
     </div>
     <div class="cell">
       <h4>握法試手</h4>
